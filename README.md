@@ -4,6 +4,10 @@
 
 ## Purpose
 * Handle file metadata. (Uploading files is out of scope)
+** Title
+** Author
+** Date
+** Keywords/tags
 * Manage multiple versions of each file.
 * Allow for the check-in and check-out of files so different users are not editing the same file concurrently.
 * Web application can be used by teams split across multiple locations.
