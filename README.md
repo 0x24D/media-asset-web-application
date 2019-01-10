@@ -20,15 +20,24 @@
 * Written using ES6 and running on node.js server
 * Tested using Mocha and Supertest
 
-## API
+## API (tbc)
+* Create - POST
+* Read - GET
+* Update - PUT
+* Delete - DELETE
 ```
-/files // GET - return list of all files
-/files // POST - create new file
-/files // PUT - bulk update files
-/files // DELETE - delete all files
+/files GET - return list of all files
+/files POST - create new file
+/files PUT - bulk update files - create new version for all
+/files DELETE - delete all files and versions
 
-/files/{id} // GET - return specific file
-/files/{id} // POST - error
-/files/{id} // PUT - update specific file
-/files/{id} // DELETE - delete specific file
+/files/{id} GET - return latest version of specific file or a list of all versions for the file (?)
+/files/{id} POST - create new version (?)
+/files/{id} PUT - update specific file or error and just create new version (?)
+/files/{id} DELETE - delete specific file and versions
+
+/files/{id}/{version} GET - return specific file at version
+/files/{id}/{version} POST - error
+/files/{id}/{version} PUT - error
+/files/{id}/{version} DELETE - delete file version (should this be possible or error and just create new version?)
 ```
