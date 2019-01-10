@@ -19,3 +19,16 @@
 * Backend (MongoDB)
 * Written using ES6 and running on node.js server
 * Tested using Mocha and Supertest
+
+## API
+```
+/files // GET - return list of all files
+/files // POST - create new file
+/files // PUT - bulk update files
+/files // DELETE - delete all files
+
+/files/{id} // GET - return specific file
+/files/{id} // POST - error
+/files/{id} // PUT - update specific file
+/files/{id} // DELETE - delete specific file
+```
