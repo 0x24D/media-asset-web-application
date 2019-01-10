@@ -13,9 +13,9 @@
 * Web application can be used by teams split across multiple locations
 * Manage user authentications and sessions. (User registration is out of scope)
 
-## Technologies used (tbc)
+## Technologies used
 * Frontend (Vue)
 * Middleware (Express)
 * Backend (MongoDB)
 * Written using ES6 and running on node.js server
-* Tested using Mocha
+* Tested using Mocha and Supertest
