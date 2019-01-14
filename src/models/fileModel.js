@@ -3,6 +3,10 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 export const MetadataSchema = new Schema({
+    name: {
+        type: String,
+        required: 'Enter a file name'
+    },
     title: {
         type: String,
         required: 'Enter a title'
@@ -18,10 +22,12 @@ export const MetadataSchema = new Schema({
     tags: {
         type: Array
     },
-    locations: {
-        type: Array
-    },
     version: {
-        type: Number
+        type: Number,
+        default: 1
+    },
+    locked: {
+        type: Boolean,
+        default: false
     }
 });
