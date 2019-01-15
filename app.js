@@ -10,6 +10,10 @@ mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/CRMdb', {
     useNewUrlParser: true
 });
+mongoose.connection.on('error', () => {
+  console.log(`MongoDB connection error. Please make sure MongoDB is running.`);
+  process.exit();
+});
 
 // bodyparser setup
 app.use(bodyParser.urlencoded({extended: true}));
@@ -18,7 +22,7 @@ app.use(bodyParser.json());
 routes(app);
 
 app.get('/', (req, res) =>
-    res.send('Hello World')
+    res.redirect('/contact'); // temporary, could be removed
 );
 
 export default app;
