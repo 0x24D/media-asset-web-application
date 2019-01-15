@@ -7,25 +7,27 @@ export const MetadataSchema = new Schema({
         type: String,
         required: 'Enter a file name'
     },
-    title: {
-        type: String,
-        required: 'Enter a title'
-    },
-    author: {
-        type: String,
-        required: 'Enter an author'
-    },
-    created_date: {
-        type: Date,
-        default: Date.now
-    },
-    tags: {
-        type: Array
-    },
-    version: {
-        type: Number,
-        default: 1
-    },
+    data: [{
+        version: {
+            type: Number,
+            default: 1
+        },
+        title: {
+            type: String,
+            required: 'Enter a title'
+        },
+        author: {
+            type: String,
+            required: 'Enter an author'
+        },
+        created_date: {
+            type: Date,
+            default: Date.now
+        },
+        tags: {
+            type: Array
+        }
+    }],
     locked: {
         type: Boolean,
         default: false
