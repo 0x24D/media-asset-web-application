@@ -5,9 +5,12 @@ import userRoutes from './src/routes/userRoutes';
 
 const app = express();
 
+var config = require('./_config');
+
 // mongoose connection
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/mediaAssetDb', {
+console.log(`Connecting to DB: ${config.mongoURI[process.env.NODE_ENV]}`);
+mongoose.connect(config.mongoURI[process.env.NODE_ENV], {
     useNewUrlParser: true
 });
 mongoose.set('useCreateIndex', true)

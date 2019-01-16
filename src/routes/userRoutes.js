@@ -1,5 +1,4 @@
 import {
-    addNewUser,
     getUsers,
     getUserByUsername,
 } from '../controllers/userController';
@@ -11,8 +10,7 @@ const userRoutes = (app) => {
         console.log(`Request from: ${req.originalUrl}`)
         console.log(`Request type: ${req.method}`)
         next();
-    }, getUsers)
-    .post(addNewUser);
+    }, getUsers);
 
     app.route('/user/:username')
     .get(getUserByUsername);

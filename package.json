@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon ./server.js --exec babel-node -e js",
-    "test": "mocha ./test --require babel-register --exit"
+    "start": "NODE_ENV=development nodemon ./server.js --exec babel-node -e js",
+    "test": "NODE_ENV=test mocha --recursive ./test --require babel-register --exit"
   },
   "author": "",
   "license": "GPL-2.0",

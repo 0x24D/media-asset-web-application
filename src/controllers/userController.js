@@ -3,19 +3,8 @@ import { UserSchema } from '../models/userModel';
 
 const User = mongoose.model('user', UserSchema);
 
-export const addNewUser = (req, res) => {
-    let newUser = new User(req.body);
-    newUser.save((err, user) => {
-        if (err) {
-            res.send(err);
-        } else {
-            res.json(user);
-        }
-    });
-};
-
 export const getUsers = (req, res) => {
-        User.find({}, (err, user) => {
+        User.find({}).lean().exec((err, user) => {
             if (err) {
                 res.send(err);
             } else {
@@ -25,7 +14,7 @@ export const getUsers = (req, res) => {
 };
 
 export const getUserByUsername = (req, res) => {
-    User.findOne({ username: req.params.username }, (err, user) => {
+    User.findOne({ username: req.params.username }).lean().exec((err, user) => {
         if (err) {
             res.send(err);
         } else {
