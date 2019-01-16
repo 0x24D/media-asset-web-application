@@ -1,15 +1,16 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
-import routes from './src/routes/crmRoutes';
+import userRoutes from './src/routes/userRoutes';
 
 const app = express();
 
 // mongoose connection
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/CRMdb', {
+mongoose.connect('mongodb://localhost/mediaAssetDb', {
     useNewUrlParser: true
 });
+mongoose.set('useCreateIndex', true)
 mongoose.connection.on('error', () => {
   console.log(`MongoDB connection error. Please make sure MongoDB is running.`);
   process.exit();
@@ -19,10 +20,6 @@ mongoose.connection.on('error', () => {
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
-routes(app);
-
-app.get('/', (req, res) =>
-    res.redirect('/contact'); // temporary, could be removed
-);
+userRoutes(app);
 
 export default app;

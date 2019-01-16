@@ -6,7 +6,7 @@ import {
     deleteContact,
 } from '../controllers/crmController';
 
-const routes = (app) => {
+const crmRoutes = (app) => {
     app.route('/contact')
     .get((req, res, next) => {
         // middleware
@@ -22,4 +22,4 @@ const routes = (app) => {
     .delete(deleteContact);
 }
 
-export default routes;
+export default crmRoutes;
