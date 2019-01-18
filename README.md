@@ -18,7 +18,7 @@
 * Middleware (Express)
 * Backend (MongoDB)
 * Written using ES6 and running on node.js server
-* Tested using Mocha and Supertest
+* Tested using Mocha and Chai
 
 ## API (tbc)
 * Create - POST
@@ -28,18 +28,18 @@
 ```
 /v1/files GET - return list of all files and versions
 /v1/files POST - create new file
-/v1/files PUT - bulk update files - create new version for all (?)
+/v1/files PUT - error
 /v1/files DELETE - delete all files and versions
 
-/v1/files/{id} GET - return latest version of specific file or a list of all versions for the file (?)
-/v1/files/{id} POST - create new version (?)
-/v1/files/{id} PUT - update specific file or error and just create new version (?)
+/v1/files/{id} GET - return list of all versions of file
+/v1/files/{id} POST - error
+/v1/files/{id} PUT - update file (create new version)
 /v1/files/{id} DELETE - delete specific file and versions
 
 /v1/files/{id}/{version} GET - return specific file at version
 /v1/files/{id}/{version} POST - error
 /v1/files/{id}/{version} PUT - error
-/v1/files/{id}/{version} DELETE - delete file version (should this be possible or error and just create new version?)
+/v1/files/{id}/{version} DELETE - error
 
 /v1/users GET - return all users
 /v1/users POST - error (out of scope)
