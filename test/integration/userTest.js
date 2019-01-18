@@ -53,6 +53,33 @@ describe('User tests', () => {
         });
     });
 
+    it('should error on /v1/users POST', (done) => {
+        chai.request(app)
+        .post('/v1/users')
+        .end((err, res) => {
+            res.should.have.status(404);
+            done();
+        });
+    });
+
+    it('should error on /v1/users PUT', (done) => {
+        chai.request(app)
+        .put('/v1/users')
+        .end((err, res) => {
+            res.should.have.status(404);
+            done();
+        });
+    });
+
+    it('should error on /v1/users DELETE', (done) => {
+        chai.request(app)
+        .del('/v1/users')
+        .end((err, res) => {
+            res.should.have.status(404);
+            done();
+        });
+    });
+
     it('should list 1 user on /v1/users/<username> GET', (done) => {
         chai.request(app)
         .get('/v1/users/testUser1')
@@ -65,6 +92,33 @@ describe('User tests', () => {
             res.body.should.have.property('password');
             res.body.username.should.equal('testUser1');
             res.body.password.should.equal('testPassword1');
+            done();
+        });
+    });
+
+    it('should error on /v1/users/<username>  POST', (done) => {
+        chai.request(app)
+        .post('/v1/users/testUser1')
+        .end((err, res) => {
+            res.should.have.status(404);
+            done();
+        });
+    });
+
+    it('should error on /v1/users/<username>  PUT', (done) => {
+        chai.request(app)
+        .put('/v1/users/testUser1')
+        .end((err, res) => {
+            res.should.have.status(404);
+            done();
+        });
+    });
+
+    it('should error on /v1/users/<username>  DELETE', (done) => {
+        chai.request(app)
+        .del('/v1/users/testUser1')
+        .end((err, res) => {
+            res.should.have.status(404);
             done();
         });
     });
