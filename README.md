@@ -20,7 +20,7 @@
 * Written using ES6 and running on node.js server
 * Tested using Mocha and Chai
 
-## API (tbc)
+## API
 * Create - POST
 * Read - GET
 * Update - PUT
