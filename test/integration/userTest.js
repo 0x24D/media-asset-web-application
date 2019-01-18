@@ -13,7 +13,6 @@ chai.use(chaiHttp);
 
 describe('User tests', () => {
     beforeEach((done) => {
-        console.log('beforeEach called');
         var newUser1 = new User({
             username: 'testUser1',
             password: 'testPassword1'
@@ -26,8 +25,8 @@ describe('User tests', () => {
             done();
         });
     });
+    
     afterEach((done) => {
-        console.log('afterEach called');
         User.collection.drop();
         done();
     });
@@ -53,6 +52,7 @@ describe('User tests', () => {
             done();
         });
     });
+
     it('should list 1 user on /user/<username> GET', (done) => {
         chai.request(app)
         .get('/user/testUser1')
