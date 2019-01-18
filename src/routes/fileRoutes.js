@@ -5,7 +5,7 @@ import {
 } from '../controllers/fileController';
 
 const fileRoutes = (app) => {
-    app.route('/file')
+    app.route('/v1/files')
     .get(getFiles)
     .post(addNewFile)
     .delete(deleteAllFiles);

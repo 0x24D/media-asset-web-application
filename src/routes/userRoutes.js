@@ -4,7 +4,7 @@ import {
 } from '../controllers/userController';
 
 const userRoutes = (app) => {
-    app.route('/user')
+    app.route('/v1/users')
     .get((req, res, next) => {
         // middleware
         console.log(`Request from: ${req.originalUrl}`)
@@ -12,7 +12,7 @@ const userRoutes = (app) => {
         next();
     }, getUsers);
 
-    app.route('/user/:username')
+    app.route('/v1/users/:username')
     .get(getUserByUsername);
 }
 

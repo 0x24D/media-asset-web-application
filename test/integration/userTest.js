@@ -31,9 +31,9 @@ describe('User tests', () => {
         done();
     });
 
-    it('should list all users on /user GET', (done) => {
+    it('should list all users on /v1/users GET', (done) => {
         chai.request(app)
-        .get('/user')
+        .get('/v1/users')
         .end((err, res) => {
             res.should.have.status(200);
             res.should.be.json;
@@ -53,9 +53,9 @@ describe('User tests', () => {
         });
     });
 
-    it('should list 1 user on /user/<username> GET', (done) => {
+    it('should list 1 user on /v1/users/<username> GET', (done) => {
         chai.request(app)
-        .get('/user/testUser1')
+        .get('/v1/users/testUser1')
         .end((err, res) => {
             res.should.have.status(200);
             res.should.be.json;

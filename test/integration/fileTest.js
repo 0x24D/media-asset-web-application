@@ -39,9 +39,9 @@ describe('File tests', () => {
         done();
     });
 
-    it('should list all files on /file GET', (done) => {
+    it('should list all files on /v1/files GET', (done) => {
         chai.request(app)
-        .get('/file')
+        .get('/v1/files')
         .end((err, res) => {
             res.should.have.status(200);
             res.should.be.json;
@@ -93,9 +93,9 @@ describe('File tests', () => {
         });
     });
 
-    it('should add new file on /file POST', (done) => {
+    it('should add new file on /v1/files POST', (done) => {
         chai.request(app)
-        .post('/file')
+        .post('/v1/files')
         .set('content-type', 'application/x-www-form-urlencoded')
         .send({
             name: 'testFile3.doc',
@@ -130,9 +130,9 @@ describe('File tests', () => {
         });
     });
 
-    it('should delete all files on /file DELETE', (done) => {
+    it('should delete all files on /v1/files DELETE', (done) => {
         chai.request(app)
-        .del('/file')
+        .del('/v1/files')
         .end((err, res) => {
             res.should.have.status(200);
             res.should.be.json;
