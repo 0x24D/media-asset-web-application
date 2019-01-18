@@ -22,12 +22,9 @@ describe('User tests', () => {
             username: 'testUser2',
             password: 'testPassword2'
         });
-        newUser1.save((err) => {
+        User.insertMany([newUser1, newUser2], () => {
             done();
         });
-        //newUser1.save();
-        //newUser2.save();
-        //done();
     });
     afterEach((done) => {
         console.log('afterEach called');
@@ -42,18 +39,17 @@ describe('User tests', () => {
             res.should.have.status(200);
             res.should.be.json;
             res.body.should.be.a('array');
-    //         //expect(res.body).to.have.lengthOf(2);
-    //         console.log(res.body);
+            expect(res.body).to.have.lengthOf(2);
             res.body[0].should.have.property('_id');
             res.body[0].should.have.property('username');
             res.body[0].should.have.property('password');
             res.body[0].username.should.equal('testUser1');
             res.body[0].password.should.equal('testPassword1');
-            // res.body[1].should.have.property('_id');
-            // res.body[1].should.have.property('username');
-            // res.body[1].should.have.property('password');
-            // res.body[1].username.should.equal('testUser2');
-            // res.body[1].password.should.equal('testPassword2');
+            res.body[1].should.have.property('_id');
+            res.body[1].should.have.property('username');
+            res.body[1].should.have.property('password');
+            res.body[1].username.should.equal('testUser2');
+            res.body[1].password.should.equal('testPassword2');
             done();
         });
     });
