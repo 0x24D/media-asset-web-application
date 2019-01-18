@@ -30,3 +30,13 @@ export const addNewFile = (req, res) => {
         }
     });
 };
+
+export const deleteAllFiles = (req, res) => {
+    File.deleteMany({}, (err) => {
+        if (err) {
+            res.send(err);
+        } else {
+            res.json({message: 'All files have been deleted'});
+        }
+    })
+};

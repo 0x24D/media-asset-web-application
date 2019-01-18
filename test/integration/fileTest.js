@@ -127,6 +127,19 @@ describe('File tests', () => {
             res.body.data[0].tags[0].should.equal('test');
             res.body.data[0].tags[1].should.equal('doc');
             done();
-        })
-    })
+        });
+    });
+
+    it('should delete all files on /file DELETE', (done) => {
+        chai.request(app)
+        .del('/file')
+        .end((err, res) => {
+            res.should.have.status(200);
+            res.should.be.json;
+            res.body.should.be.a('object');
+            res.body.should.have.property('message');
+            res.body.message.should.equal('All files have been deleted');
+            done();
+        });
+    });
 });
