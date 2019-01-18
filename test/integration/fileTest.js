@@ -130,6 +130,15 @@ describe('File tests', () => {
         });
     });
 
+    it('should error on /v1/files PUT', (done) => {
+        chai.request(app)
+        .put('/v1/files')
+        .end((err, res) => {
+            res.should.have.status(404);
+            done();
+        });
+    });
+
     it('should delete all files on /v1/files DELETE', (done) => {
         chai.request(app)
         .del('/v1/files')
@@ -139,6 +148,78 @@ describe('File tests', () => {
             res.body.should.be.a('object');
             res.body.should.have.property('message');
             res.body.message.should.equal('All files have been deleted');
+            done();
+        });
+    });
+
+    it('should error on /v1/files/<id> GET', (done) => {
+        chai.request(app)
+        .get('/v1/files/123')
+        .end((err, res) => {
+            res.should.have.status(404);
+            done();
+        });
+    });
+
+    it('should error on /v1/files/<id> POST', (done) => {
+        chai.request(app)
+        .post('/v1/files/123')
+        .end((err, res) => {
+            res.should.have.status(404);
+            done();
+        });
+    });
+
+    it('should error on /v1/files/<id> PUT', (done) => {
+        chai.request(app)
+        .put('/v1/files/123')
+        .end((err, res) => {
+            res.should.have.status(404);
+            done();
+        });
+    });
+
+    it('should error on /v1/files/<id> DELETE', (done) => {
+        chai.request(app)
+        .del('/v1/files/123')
+        .end((err, res) => {
+            res.should.have.status(404);
+            done();
+        });
+    });
+
+    it('should error on /v1/files/<id>/<version> GET', (done) => {
+        chai.request(app)
+        .get('/v1/files/123/1')
+        .end((err, res) => {
+            res.should.have.status(404);
+            done();
+        });
+    });
+
+    it('should error on /v1/files/<id>/<version> POST', (done) => {
+        chai.request(app)
+        .post('/v1/files/123/1')
+        .end((err, res) => {
+            res.should.have.status(404);
+            done();
+        });
+    });
+
+    it('should error on /v1/files/<id>/<version> PUT', (done) => {
+        chai.request(app)
+        .put('/v1/files/123/1')
+        .end((err, res) => {
+            res.should.have.status(404);
+            done();
+        });
+    });
+
+    it('should error on /v1/files/<id>/<version> DELETE', (done) => {
+        chai.request(app)
+        .del('/v1/files/123/1')
+        .end((err, res) => {
+            res.should.have.status(404);
             done();
         });
     });
