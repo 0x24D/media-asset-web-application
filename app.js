@@ -1,6 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
+import fileRoutes from './src/routes/fileRoutes';
 import userRoutes from './src/routes/userRoutes';
 
 const app = express();
@@ -23,6 +24,7 @@ mongoose.connection.on('error', () => {
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
+fileRoutes(app);
 userRoutes(app);
 
 export default app;

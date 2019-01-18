@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
 
-export const MetadataSchema = new Schema({
+export const FileSchema = new Schema({
     name: {
         type: String,
         required: 'Enter a file name'

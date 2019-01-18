@@ -25,7 +25,7 @@ describe('User tests', () => {
             done();
         });
     });
-    
+
     afterEach((done) => {
         User.collection.drop();
         done();

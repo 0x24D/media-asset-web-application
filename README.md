@@ -26,7 +26,7 @@
 * Update - PUT
 * Delete - DELETE
 ```
-/files GET - return list of all files
+/files GET - return list of all files and versions
 /files POST - create new file
 /files PUT - bulk update files - create new version for all
 /files DELETE - delete all files and versions
