@@ -26,7 +26,7 @@ export const addNewFile = (req, res) => {
         if (err) {
             res.status(500).send(err);
         } else {
-            res.json(file);
+            res.status(201).json(file);
         }
     });
 };

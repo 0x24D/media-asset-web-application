@@ -108,7 +108,7 @@ describe('File tests', () => {
             author: 'test user',
             tags: ['test', 'doc']})
         .end((err, res) => {
-            res.should.have.status(200);
+            res.should.have.status(201);
             res.should.be.json;
             res.body.should.be.a('object');
             res.body.should.have.property('_id');
