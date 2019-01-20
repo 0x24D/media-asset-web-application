@@ -52,25 +52,25 @@ export const getFileById = (req, res) => {
 };
 
 export const updateFile = (req, res) => {
-        File.findById(req.params.id).lean().exec((err, currentFile) => {
-            if (err) {
-                res.status(500).send(err);
-            } else {
-                currentFile.data[currentFile.data.length] = {
-                    version: currentFile.data.length + 1,
-                    title: req.body.title,
-                    author: req.body.author,
-                    tags: req.body.tags
-                }
-                File.findOneAndUpdate({_id : req.params.id}, new File(currentFile), {new: true}, (err, updatedFile) => {
-                    if (err) {
-                        res.status(500).send(err);
-                    } else {
-                        res.json(updatedFile);
-                    }
-                });
+    File.findById(req.params.id).lean().exec((err, currentFile) => {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            currentFile.data[currentFile.data.length] = {
+                version: currentFile.data.length + 1,
+                title: req.body.title,
+                author: req.body.author,
+                tags: req.body.tags
             }
-        })
+            File.findOneAndUpdate({_id : req.params.id}, new File(currentFile), {new: true}, (err, updatedFile) => {
+                if (err) {
+                    res.status(500).send(err);
+                } else {
+                    res.json(updatedFile);
+                }
+            });
+        }
+    })
 };
 
 export const deleteFile = (req, res) => {
