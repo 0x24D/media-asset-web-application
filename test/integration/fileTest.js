@@ -148,11 +148,7 @@ describe('File tests', () => {
         chai.request(app)
         .del('/v1/files')
         .end((err, res) => {
-            res.should.have.status(200);
-            res.should.be.json;
-            res.body.should.be.a('object');
-            res.body.should.have.property('message');
-            res.body.message.should.equal('All files have been deleted');
+            res.should.have.status(204);
             done();
         });
     });
@@ -207,11 +203,11 @@ describe('File tests', () => {
         });
     });
 
-    it('should error on /v1/files/<id> DELETE', (done) => {
+    it('should delete 1 file on /v1/files/<id> DELETE', (done) => {
         chai.request(app)
-        .del('/v1/files/123')
+        .del(`/v1/files/${file1Id}`)
         .end((err, res) => {
-            res.should.have.status(404);
+            res.should.have.status(204);
             done();
         });
     });

@@ -36,7 +36,7 @@ export const deleteAllFiles = (req, res) => {
         if (err) {
             res.send(err);
         } else {
-            res.json({message: 'All files have been deleted'});
+            res.status(204).end();
         }
     })
 };
@@ -49,4 +49,14 @@ export const getFileById = (req, res) => {
             res.json(file);
         }
     });
+};
+
+export const deleteFile = (req, res) => {
+    File.findOneAndDelete({ _id: req.params.id }, (err) => {
+        if (err) {
+            res.send(err);
+        } else {
+            res.status(204).end();
+        }
+    })
 };
