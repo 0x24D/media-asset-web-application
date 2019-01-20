@@ -195,11 +195,40 @@ describe('File tests', () => {
         });
     });
 
-    it('should error on /v1/files/<id> PUT', (done) => {
+    it('should add new version on /v1/files/<id> PUT', (done) => {
         chai.request(app)
-        .put('/v1/files/123')
+        .put(`/v1/files/${file1Id}`)
+        .set('content-type', 'application/x-www-form-urlencoded')
+        .send({
+            title: 'This is the first test file - second version',
+            author: 'test user',
+            tags: ['test', 'txt', 'iteration']})
         .end((err, res) => {
-            res.should.have.status(404);
+            res.should.have.status(200);
+            res.should.be.json;
+            res.body.should.be.a('object');
+            res.body.should.have.property('_id');
+            res.body.should.have.property('name');
+            res.body.should.have.property('data');
+            res.body._id.should.equal(file1Id);
+            res.body.name.should.equal('testFile1.txt');
+            res.body.data.should.be.a('array');
+            expect(res.body.data).to.have.lengthOf(2);
+            res.body.data[1].should.be.a('object');
+            res.body.data[1].should.have.property('_id');
+            res.body.data[1].should.have.property('version');
+            res.body.data[1].should.have.property('title');
+            res.body.data[1].should.have.property('author');
+            res.body.data[1].should.have.property('created_date');
+            res.body.data[1].should.have.property('tags');
+            res.body.data[1].version.should.equal(2);
+            res.body.data[1].title.should.equal('This is the first test file - second version');
+            res.body.data[1].author.should.equal('test user');
+            res.body.data[1].tags.should.be.a('array');
+            expect(res.body.data[1].tags).to.have.lengthOf(3);
+            res.body.data[1].tags[0].should.equal('test');
+            res.body.data[1].tags[1].should.equal('txt');
+            res.body.data[1].tags[2].should.equal('iteration');
             done();
         });
     });

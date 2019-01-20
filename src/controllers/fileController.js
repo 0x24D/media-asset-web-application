@@ -14,7 +14,7 @@ export const getFiles = (req, res) => {
 };
 
 export const addNewFile = (req, res) => {
-    let newFile = new File({
+    var newFile = new File({
         name: req.body.name,
         data: [{
             title: req.body.title,
@@ -49,6 +49,28 @@ export const getFileById = (req, res) => {
             res.json(file);
         }
     });
+};
+
+export const updateFile = (req, res) => {
+        File.findById(req.params.id).lean().exec((err, currentFile) => {
+            if (err) {
+                res.status(500).send(err);
+            } else {
+                currentFile.data[currentFile.data.length] = {
+                    version: currentFile.data.length + 1,
+                    title: req.body.title,
+                    author: req.body.author,
+                    tags: req.body.tags
+                }
+                File.findOneAndUpdate({_id : req.params.id}, new File(currentFile), {new: true}, (err, updatedFile) => {
+                    if (err) {
+                        res.status(500).send(err);
+                    } else {
+                        res.json(updatedFile);
+                    }
+                });
+            }
+        })
 };
 
 export const deleteFile = (req, res) => {
