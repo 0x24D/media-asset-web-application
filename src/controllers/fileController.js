@@ -60,3 +60,22 @@ export const deleteFile = (req, res) => {
         }
     })
 };
+
+export const getFileAndVersion = (req, res) => {
+    File.findById(req.params.id).lean().exec((err, file) => {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            const v = req.params.version - 1;
+            res.json({
+                _id: file._id,
+                name: file.name,
+                version: file.data[v].version,
+                title: file.data[v].title,
+                author: file.data[v].author,
+                created_date: file.data[v].created_date,
+                tags: file.data[v].tags
+            });
+        }
+    });
+};

@@ -3,7 +3,8 @@ import {
     getFiles,
     deleteAllFiles,
     getFileById,
-    deleteFile
+    deleteFile,
+    getFileAndVersion,
 } from '../controllers/fileController';
 
 const fileRoutes = (app) => {
@@ -16,6 +17,9 @@ const fileRoutes = (app) => {
     app.route('/v1/files/:id')
     .get(getFileById)
     .delete(deleteFile);
+
+    app.route('/v1/files/:id/:version')
+    .get(getFileAndVersion);
 }
 
 export default fileRoutes;

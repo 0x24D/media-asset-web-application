@@ -14,7 +14,7 @@ chai.use(chaiHttp);
 describe('File tests', () => {
     var file1Id, file2Id;
     beforeEach((done) => {
-        var newFile1 = new File({
+        const newFile1 = new File({
             name: 'testFile1.txt',
             data: [{
                 title: 'This is the first test file',
@@ -23,7 +23,7 @@ describe('File tests', () => {
             }]
         });
         file1Id = String(newFile1._id);
-        var newFile2 = new File({
+        const newFile2 = new File({
             name: 'testFile2.pdf',
             data: [{
                 title: 'This is the second test file',
@@ -214,11 +214,47 @@ describe('File tests', () => {
         });
     });
 
-    it('should error on /v1/files/<id>/<version> GET', (done) => {
+    it('should list 1 file with 1 version on /v1/files/<id>/<version> GET', (done) => {
+        const mvFile = new File({
+            name: 'multipleVersions.txt',
+            data: [{
+                version: 1,
+                title: 'This is the first version',
+                author: 'test user',
+                tags: ['test', 'txt']
+            },
+            {
+                version: 2,
+                title: 'This is the second version',
+                author: 'test user',
+                tags: ['test', 'txt']
+            }]
+        });
+        const mvFileId = String(mvFile._id);
+        mvFile.save();
+
         chai.request(app)
-        .get('/v1/files/123/1')
+        .get(`/v1/files/${mvFileId}/2`)
         .end((err, res) => {
-            res.should.have.status(404);
+            res.should.have.status(200);
+            res.should.be.json;
+            res.body.should.be.a('object');
+            res.body.should.have.property('_id');
+            res.body.should.have.property('name');
+            res.body.should.have.property('version');
+            res.body.should.have.property('title');
+            res.body.should.have.property('author');
+            res.body.should.have.property('created_date');
+            res.body.should.have.property('tags');
+            res.body._id.should.equal(mvFileId);
+            res.body.name.should.equal('multipleVersions.txt');
+            res.body.version.should.equal(2);
+            res.body.title.should.equal('This is the second version');
+            res.body.author.should.equal('test user');
+            res.body.tags.should.be.a('array');
+            expect(res.body.tags).to.have.lengthOf(2);
+            res.body.tags[0].should.equal('test');
+            res.body.tags[1].should.equal('txt');
             done();
         });
     });
