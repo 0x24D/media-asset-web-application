@@ -2,6 +2,7 @@ import {
     addNewFile,
     getFiles,
     deleteAllFiles,
+    getFileById,
 } from '../controllers/fileController';
 
 const fileRoutes = (app) => {
@@ -10,6 +11,9 @@ const fileRoutes = (app) => {
     .get(getFiles)
     .post(addNewFile)
     .delete(deleteAllFiles);
+
+    app.route('/v1/files/:id')
+    .get(getFileById);
 }
 
 export default fileRoutes;

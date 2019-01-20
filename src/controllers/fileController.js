@@ -40,3 +40,13 @@ export const deleteAllFiles = (req, res) => {
         }
     })
 };
+
+export const getFileById = (req, res) => {
+    File.findById(req.params.id).lean().exec((err, file) => {
+        if (err) {
+            res.send(err);
+        } else {
+            res.json(file);
+        }
+    });
+};
