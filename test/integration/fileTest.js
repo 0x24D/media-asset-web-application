@@ -157,7 +157,7 @@ describe('File tests', () => {
         });
     });
 
-    it('should get single file on /v1/files/<id> GET', (done) => {
+    it('should list 1 file on /v1/files/<id> GET', (done) => {
         chai.request(app)
         .get(`/v1/files/${file1Id}`)
         .end((err, res) => {
