@@ -149,6 +149,7 @@ describe('File tests', () => {
         .del('/v1/files')
         .end((err, res) => {
             res.should.have.status(204);
+            // TODO: how to check number of files left? File.countDocuments returns null
             done();
         });
     });
@@ -208,6 +209,7 @@ describe('File tests', () => {
         .del(`/v1/files/${file1Id}`)
         .end((err, res) => {
             res.should.have.status(204);
+            // TODO: how to check number of files left? File.countDocuments returns null
             done();
         });
     });
