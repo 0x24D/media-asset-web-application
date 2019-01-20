@@ -52,7 +52,7 @@ export const getFileById = (req, res) => {
 };
 
 export const deleteFile = (req, res) => {
-    File.findOneAndDelete({ _id: req.params.id }, (err) => {
+    File.findByIdAndDelete(req.params.id, (err) => {
         if (err) {
             res.send(err);
         } else {
