@@ -6,7 +6,7 @@ const User = mongoose.model('user', UserSchema);
 export const getUsers = (req, res) => {
         User.find({}).lean().exec((err, user) => {
             if (err) {
-                res.send(err);
+                res.status(500).send(err);
             } else {
                 res.json(user);
             }
@@ -16,7 +16,7 @@ export const getUsers = (req, res) => {
 export const getUserByUsername = (req, res) => {
     User.findOne({ username: req.params.username }).lean().exec((err, user) => {
         if (err) {
-            res.send(err);
+            res.status(500).send(err);
         } else {
             res.json(user);
         }
