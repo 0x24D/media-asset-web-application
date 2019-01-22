@@ -6,23 +6,23 @@ import userRoutes from './src/routes/userRoutes';
 
 const app = express();
 
-var config = require('./_config');
+const config = require('./_config');
 
 // mongoose connection
 mongoose.Promise = global.Promise;
 console.log(`Connecting to DB: ${config.mongoURI[process.env.NODE_ENV]}`);
 mongoose.connect(config.mongoURI[process.env.NODE_ENV], {
-    useNewUrlParser: true
+  useNewUrlParser: true,
 });
 mongoose.set('useCreateIndex', true);
 mongoose.set('useFindAndModify', false);
 mongoose.connection.on('error', () => {
-  console.log(`MongoDB connection error. Please make sure MongoDB is running.`);
+  console.log('MongoDB connection error. Please make sure MongoDB is running.');
   process.exit();
 });
 
 // bodyparser setup
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 fileRoutes(app);
