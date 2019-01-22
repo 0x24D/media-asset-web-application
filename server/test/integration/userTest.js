@@ -1,4 +1,6 @@
 import chai from 'chai';
+import { expect } from 'chai';
+import { assert } from 'chai';
 import mongoose from 'mongoose';
 import app from '../../app';
 
@@ -6,9 +8,8 @@ import { UserSchema } from '../../src/models/userModel';
 
 const chaiHttp = require('chai-http');
 
-const expect = chai.expect;
-const assert = chai.assert;
 const should = chai.should();
+
 const User = mongoose.model('user', UserSchema);
 
 chai.use(chaiHttp);
