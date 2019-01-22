@@ -30,7 +30,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "./node_modules/eslint/bin/eslint.js --fix .",    
+      "pre-commit": "./node_modules/eslint/bin/eslint.js --fix .",
       "pre-push": "npm test"
     }
   }
