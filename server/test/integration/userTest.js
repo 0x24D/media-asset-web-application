@@ -6,9 +6,9 @@ import { UserSchema } from '../../src/models/userModel';
 
 const chaiHttp = require('chai-http');
 
-const { expect } = chai.expect;
-const { assert } = chai.assert;
-const { should } = chai.should();
+const expect = chai.expect;
+const assert = chai.assert;
+const should = chai.should();
 const User = mongoose.model('user', UserSchema);
 
 chai.use(chaiHttp);

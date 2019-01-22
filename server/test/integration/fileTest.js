@@ -6,9 +6,9 @@ import { FileSchema } from '../../src/models/fileModel';
 
 const chaiHttp = require('chai-http');
 
-const { expect } = chai.expect;
-const { assert } = chai.assert;
-const { should } = chai.should();
+const expect = chai.expect;
+const assert = chai.assert;
+const should = chai.should();
 const File = mongoose.model('file', FileSchema);
 
 chai.use(chaiHttp);

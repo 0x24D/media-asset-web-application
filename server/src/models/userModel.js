@@ -2,10 +2,9 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 
-const { Schema } = mongoose.Schema;
 const SALT_WORK_FACTOR = 10;
 
-export const UserSchema = new Schema({
+export const UserSchema = new mongoose.Schema({
   username: {
     type: String,
     required: 'Enter a username',
