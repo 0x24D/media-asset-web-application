@@ -13,9 +13,9 @@ mongoose.Promise = global.Promise;
 console.log(`Connecting to DB: ${config.mongoURI[process.env.NODE_ENV]}`);
 mongoose.connect(config.mongoURI[process.env.NODE_ENV], {
   useNewUrlParser: true,
+  useCreateIndex: true,
+  useFindAndModify: false,
 });
-mongoose.set('useCreateIndex', true);
-mongoose.set('useFindAndModify', false);
 mongoose.connection.on('error', () => {
   console.log('MongoDB connection error. Please make sure MongoDB is running.');
   process.exit();
