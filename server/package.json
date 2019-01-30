@@ -29,7 +29,7 @@
     "yorkie": "^2.0.0"
     
   },
-  "hooks": {
+  "gitHooks": {
     "pre-commit": "./node_modules/eslint/bin/eslint.js --fix .",
     "pre-push": "npm test"
   }
