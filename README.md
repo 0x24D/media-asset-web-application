@@ -11,7 +11,7 @@
 * Manage multiple versions of each file
 * Allow files to be checked-in and checked-out so different users are not editing the same file concurrently
 * Web application can be used by teams split across multiple locations
-* Manage user authentications and sessions. (User registration is out of scope)
+* Manage user authentications and sessions. (User registration via a form is out of scope, but endpoints must exist)
 
 ## Technologies used
 * Frontend (Vue)
@@ -41,13 +41,13 @@
 /v1/files/{id}/{version} PUT - error
 /v1/files/{id}/{version} DELETE - error
 
-/v1/users GET - return all users
-/v1/users POST - error (out of scope)
-/v1/users PUT - error (out of scope)
-/v1/users DELETE - error (out of scope)
+/v1/users GET - return list of all users
+/v1/users POST - create new user
+/v1/users PUT - error
+/v1/users DELETE - delete all users
 
 /v1/users/{username} GET - return user with username
-/v1/users/{username} POST - error (out of scope)
-/v1/users/{username} PUT - error (out of scope)
-/v1/users/{username} DELETE - error (out of scope)
+/v1/users/{username} POST - error
+/v1/users/{username} PUT - update user
+/v1/users/{username} DELETE - delete specific user
 ```
