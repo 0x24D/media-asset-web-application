@@ -1,7 +1,10 @@
 import mongoose from 'mongoose';
+import bcrypt from 'bcryptjs';
 import { UserSchema } from '../models/userModel';
 
+const SALT_WORK_FACTOR = 10;
 const User = mongoose.model('user', UserSchema);
+
 
 export const getUsers = (req, res) => {
   User.find({}).lean().exec((err, user) => {
@@ -15,7 +18,26 @@ export const getUsers = (req, res) => {
 
 // /v1/users POST - create new user
 export const addNewUser = (req, res) => {
-  // TODO: implement
+  bcrypt.genSalt(SALT_WORK_FACTOR, (err, salt) => {
+    if (err) {
+      res.status(500).send(err);
+    } else {
+      bcrypt.hash(req.body.password, salt, (err2, hash) => {
+        if (err2) {
+          res.status(500).send(err2);
+        } else {
+          const newUser = new User({ username: req.body.username, password: hash });
+          newUser.save((err3, file) => {
+            if (err3) {
+              res.status(500).send(err3);
+            } else {
+              res.status(200).json(file);
+            }
+          });
+        }
+      });
+    }
+  });
 };
 
 // /v1/users DELETE - delete all users

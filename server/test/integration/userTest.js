@@ -59,8 +59,20 @@ describe('User tests', () => {
   it('should add new user on /v1/users POST', (done) => {
     chai.request(app)
       .post('/v1/users')
+      .set('content-type', 'application/x-www-form-urlencoded')
+      .send({
+        username: 'testUser3',
+        password: 'testPassword3'
+      })
       .end((err, res) => {
-        res.should.have.status(404);
+        res.should.have.status(200);
+        res.should.be.json;
+        res.body.should.be.a('object');
+        res.body.should.have.property('_id');
+        res.body.should.have.property('username');
+        res.body.should.have.property('password');
+        res.body.username.should.equal('testUser3');
+        res.body.password.should.not.equal('testPassword3');
         done();
       });
   });
