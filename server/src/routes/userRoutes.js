@@ -3,6 +3,7 @@ import {
   addNewUser,
   deleteAllUsers,
   getUserByUsername,
+  updateUser,
   deleteUser,
 } from '../controllers/userController';
 
@@ -15,6 +16,7 @@ const userRoutes = (app) => {
 
   app.route('/v1/users/:username')
     .get(getUserByUsername)
+    .put(updateUser)
     .delete(deleteUser);
 };
 

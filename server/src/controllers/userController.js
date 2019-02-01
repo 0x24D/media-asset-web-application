@@ -16,7 +16,6 @@ export const getUsers = (req, res) => {
   });
 };
 
-// /v1/users POST - create new user
 export const addNewUser = (req, res) => {
   bcrypt.genSalt(SALT_WORK_FACTOR, (err, salt) => {
     if (err) {
@@ -31,7 +30,7 @@ export const addNewUser = (req, res) => {
             if (err3) {
               res.status(500).send(err3);
             } else {
-              res.status(200).json(file);
+              res.json(file);
             }
           });
         }
@@ -40,7 +39,6 @@ export const addNewUser = (req, res) => {
   });
 };
 
-// /v1/users DELETE - delete all users
 export const deleteAllUsers = (req, res) => {
   User.deleteMany({}, (err) => {
     if (err) {
@@ -61,12 +59,39 @@ export const getUserByUsername = (req, res) => {
   });
 };
 
-// /v1/users/{username} PUT - update user
 export const updateUser = (req, res) => {
-  // TODO: implement
+  User.findOne({ username: req.params.username }).lean().exec((err, currentUser) => {
+    if (err) {
+      res.status(500).send(err);
+    } else if (req.body.password) {
+      bcrypt.genSalt(SALT_WORK_FACTOR, (err2, salt) => {
+        if (err2) {
+          res.status(500).send(err2);
+        } else {
+          bcrypt.hash(req.body.password, salt, (err3, hash) => {
+            if (err3) {
+              res.status(500).send(err3);
+            } else {
+              const newUser = currentUser;
+              newUser.password = hash;
+              User.findOneAndUpdate({ username: req.params.username }, new User(newUser),
+                { new: true }, (err4, updatedUser) => {
+                  if (err4) {
+                    res.status(500).send(err4);
+                  } else {
+                    res.json(updatedUser);
+                  }
+                });
+            }
+          });
+        }
+      });
+    } else {
+      res.status(400).end();
+    }
+  });
 };
 
-// /v1/users/{username} DELETE - delete specific user
 export const deleteUser = (req, res) => {
   User.findOneAndDelete({ username: req.params.username }, (err) => {
     if (err) {
