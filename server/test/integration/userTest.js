@@ -91,6 +91,7 @@ describe('User tests', () => {
       .del('/v1/users')
       .end((err, res) => {
         res.should.have.status(204);
+        // TODO: how to check number of users left?
         done();
       });
   });
@@ -146,6 +147,7 @@ describe('User tests', () => {
       .del('/v1/users/testUser1')
       .end((err, res) => {
         res.should.have.status(204);
+        // TODO: how to check number of users left?
         done();
       });
   });
