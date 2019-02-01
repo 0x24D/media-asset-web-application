@@ -56,7 +56,7 @@ describe('User tests', () => {
       });
   });
 
-  it('should error on /v1/users POST', (done) => {
+  it('should add new user on /v1/users POST', (done) => {
     chai.request(app)
       .post('/v1/users')
       .end((err, res) => {
@@ -74,11 +74,11 @@ describe('User tests', () => {
       });
   });
 
-  it('should error on /v1/users DELETE', (done) => {
+  it('should delete all users on /v1/users DELETE', (done) => {
     chai.request(app)
       .del('/v1/users')
       .end((err, res) => {
-        res.should.have.status(404);
+        res.should.have.status(204);
         done();
       });
   });
@@ -108,7 +108,7 @@ describe('User tests', () => {
       });
   });
 
-  it('should error on /v1/users/<username>  PUT', (done) => {
+  it('should update 1 user on /v1/users/<username>  PUT', (done) => {
     chai.request(app)
       .put('/v1/users/testUser1')
       .end((err, res) => {
@@ -117,11 +117,11 @@ describe('User tests', () => {
       });
   });
 
-  it('should error on /v1/users/<username>  DELETE', (done) => {
+  it('should delete 1 user on /v1/users/<username>  DELETE', (done) => {
     chai.request(app)
       .del('/v1/users/testUser1')
       .end((err, res) => {
-        res.should.have.status(404);
+        res.should.have.status(204);
         done();
       });
   });
