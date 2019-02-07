@@ -1,4 +1,6 @@
-import app from './app';
+#!/usr/bin/env node
+
+import app from '../app';
 
 const PORT = 8081;
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
