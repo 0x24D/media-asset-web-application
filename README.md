@@ -50,4 +50,7 @@
 /v1/users/{username} POST - error
 /v1/users/{username} PUT - update user
 /v1/users/{username} DELETE - delete specific user
+
+/v1/authentication/login POST - login user, create token
+/v1/authentication/logout POST - logout user, remove token
 ```

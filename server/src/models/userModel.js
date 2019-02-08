@@ -1,4 +1,3 @@
-// https://www.mongodb.com/blog/post/password-authentication-with-mongoose-part-1
 import mongoose from 'mongoose';
 
 export const UserSchema = new mongoose.Schema({
@@ -10,5 +9,8 @@ export const UserSchema = new mongoose.Schema({
   password: {
     type: String,
     required: 'Enter a password',
+  },
+  token: {
+    type: String,
   },
 });

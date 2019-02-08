@@ -1,6 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
+import authenticationRoutes from './src/routes/authenticationRoutes';
 import fileRoutes from './src/routes/fileRoutes';
 import userRoutes from './src/routes/userRoutes';
 
@@ -25,6 +26,7 @@ mongoose.connection.on('error', () => {
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+authenticationRoutes(app);
 fileRoutes(app);
 userRoutes(app);
 

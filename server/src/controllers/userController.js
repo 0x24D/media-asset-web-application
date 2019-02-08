@@ -5,7 +5,6 @@ import { UserSchema } from '../models/userModel';
 const SALT_WORK_FACTOR = 10;
 const User = mongoose.model('user', UserSchema);
 
-
 export const getUsers = (req, res) => {
   User.find({}).lean().exec((err, user) => {
     if (err) {
@@ -16,6 +15,7 @@ export const getUsers = (req, res) => {
   });
 };
 
+// TODO: hash password on client side so the server does not see the raw password
 export const addNewUser = (req, res) => {
   bcrypt.genSalt(SALT_WORK_FACTOR, (err, salt) => {
     if (err) {
@@ -59,6 +59,7 @@ export const getUserByUsername = (req, res) => {
   });
 };
 
+// TODO: hash password on client side so the server does not see the raw password
 export const updateUser = (req, res) => {
   User.findOne({ username: req.params.username }).lean().exec((err, currentUser) => {
     if (err) {
