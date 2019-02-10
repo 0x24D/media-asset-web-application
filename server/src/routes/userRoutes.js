@@ -1,6 +1,6 @@
-import {
-  isUserAuthenticated,
-} from '../controllers/authenticationController';
+// import {
+//   isUserAuthenticated,
+// } from '../controllers/authenticationController';
 
 import {
   getUsers,
@@ -12,7 +12,7 @@ import {
 } from '../controllers/userController';
 
 const userRoutes = (app) => {
-  app.use(isUserAuthenticated);
+  // app.use(isUserAuthenticated);
   app.route('/v1/users')
     .get(getUsers)
     .post(addNewUser)
