@@ -1,4 +1,8 @@
 import {
+  isUserAuthenticated,
+} from '../controllers/authenticationController';
+
+import {
   getUsers,
   addNewUser,
   deleteAllUsers,
@@ -8,7 +12,7 @@ import {
 } from '../controllers/userController';
 
 const userRoutes = (app) => {
-  // TODO: add middleware for checking user authentication on all routes
+  app.use(isUserAuthenticated);
   app.route('/v1/users')
     .get(getUsers)
     .post(addNewUser)

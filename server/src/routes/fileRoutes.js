@@ -1,4 +1,8 @@
 import {
+  isUserAuthenticated,
+} from '../controllers/authenticationController';
+
+import {
   addNewFile,
   getFiles,
   deleteAllFiles,
@@ -9,7 +13,7 @@ import {
 } from '../controllers/fileController';
 
 const fileRoutes = (app) => {
-  // TODO: add middleware for checking user authentication on all routes
+  app.use(isUserAuthenticated);
   app.route('/v1/files')
     .get(getFiles)
     .post(addNewFile)

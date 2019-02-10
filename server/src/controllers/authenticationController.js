@@ -53,3 +53,19 @@ export const logoutUser = (req, res) => {
     }
   });
 };
+
+export const isUserAuthenticated = (req, res, next) => {
+  console.log('isUserAuthenticated middleware called');
+  const tokenFromUser = req.headers.authorization;
+  if (tokenFromUser) {
+    User.findOne({ token: tokenFromUser }).lean().exec((err) => {
+      if (err) {
+        res.status(401).end();
+      } else {
+        next();
+      }
+    });
+  } else {
+    res.status(401).end();
+  }
+};
