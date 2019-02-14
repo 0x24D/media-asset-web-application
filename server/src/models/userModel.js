@@ -12,7 +12,6 @@ export const UserSchema = new mongoose.Schema({
   },
   salt: {
     type: String,
-    required: 'Enter a salt',
   },
   token: {
     type: String,
