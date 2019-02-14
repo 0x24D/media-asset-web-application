@@ -14,17 +14,17 @@ import {
 
 const fileRoutes = (app) => {
   // app.use(isUserAuthenticated);
-  app.route('/v1/files')
+  app.route('/api/v1/files')
     .get(getFiles)
     .post(addNewFile)
     .delete(deleteAllFiles);
 
-  app.route('/v1/files/:id')
+  app.route('/api/v1/files/:id')
     .get(getFileById)
     .put(updateFile)
     .delete(deleteFile);
 
-  app.route('/v1/files/:id/:version')
+  app.route('/api/v1/files/:id/:version')
     .get(getFileAndVersion);
 };
 

@@ -13,12 +13,12 @@ import {
 
 const userRoutes = (app) => {
   // app.use(isUserAuthenticated);
-  app.route('/v1/users')
+  app.route('/api/v1/users')
     .get(getUsers)
     .post(addNewUser)
     .delete(deleteAllUsers);
 
-  app.route('/v1/users/:username')
+  app.route('/api/v1/users/:username')
     .get(getUserByUsername)
     .put(updateUser)
     .delete(deleteUser);

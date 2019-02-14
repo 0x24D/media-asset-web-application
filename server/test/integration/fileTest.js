@@ -46,9 +46,9 @@ describe('File tests', () => {
     done();
   });
 
-  it('should list all files on /v1/files GET', (done) => {
+  it('should list all files on /api/v1/files GET', (done) => {
     chai.request(app)
-      .get('/v1/files')
+      .get('/api/v1/files')
       .end((err, res) => {
         res.should.have.status(200);
         res.should.be.json;
@@ -102,9 +102,9 @@ describe('File tests', () => {
       });
   });
 
-  it('should add new file on /v1/files POST', (done) => {
+  it('should add new file on /api/v1/files POST', (done) => {
     chai.request(app)
-      .post('/v1/files')
+      .post('/api/v1/files')
       .set('content-type', 'application/x-www-form-urlencoded')
       .send({
         name: 'testFile3.doc',
@@ -140,18 +140,18 @@ describe('File tests', () => {
       });
   });
 
-  it('should error on /v1/files PUT', (done) => {
+  it('should error on /api/v1/files PUT', (done) => {
     chai.request(app)
-      .put('/v1/files')
+      .put('/api/v1/files')
       .end((err, res) => {
         res.should.have.status(404);
         done();
       });
   });
 
-  it('should delete all files on /v1/files DELETE', (done) => {
+  it('should delete all files on /api/v1/files DELETE', (done) => {
     chai.request(app)
-      .del('/v1/files')
+      .del('/api/v1/files')
       .end((err, res) => {
         res.should.have.status(204);
         // TODO: how to check number of files left? File.countDocuments returns null
@@ -159,9 +159,9 @@ describe('File tests', () => {
       });
   });
 
-  it('should list 1 file on /v1/files/<id> GET', (done) => {
+  it('should list 1 file on /api/v1/files/<id> GET', (done) => {
     chai.request(app)
-      .get(`/v1/files/${file1Id}`)
+      .get(`/api/v1/files/${file1Id}`)
       .end((err, res) => {
         res.should.have.status(200);
         res.should.be.json;
@@ -191,18 +191,18 @@ describe('File tests', () => {
       });
   });
 
-  it('should error on /v1/files/<id> POST', (done) => {
+  it('should error on /api/v1/files/<id> POST', (done) => {
     chai.request(app)
-      .post('/v1/files/123')
+      .post('/api/v1/files/123')
       .end((err, res) => {
         res.should.have.status(404);
         done();
       });
   });
 
-  it('should add new version on /v1/files/<id> PUT', (done) => {
+  it('should add new version on /api/v1/files/<id> PUT', (done) => {
     chai.request(app)
-      .put(`/v1/files/${file1Id}`)
+      .put(`/api/v1/files/${file1Id}`)
       .set('content-type', 'application/x-www-form-urlencoded')
       .send({
         title: 'This is the first test file - second version',
@@ -239,9 +239,9 @@ describe('File tests', () => {
       });
   });
 
-  it('should delete 1 file on /v1/files/<id> DELETE', (done) => {
+  it('should delete 1 file on /api/v1/files/<id> DELETE', (done) => {
     chai.request(app)
-      .del(`/v1/files/${file1Id}`)
+      .del(`/api/v1/files/${file1Id}`)
       .end((err, res) => {
         res.should.have.status(204);
         // TODO: how to check number of files left? File.countDocuments returns null
@@ -249,7 +249,7 @@ describe('File tests', () => {
       });
   });
 
-  it('should list 1 file with 1 version on /v1/files/<id>/<version> GET', (done) => {
+  it('should list 1 file with 1 version on /api/v1/files/<id>/<version> GET', (done) => {
     const mvFile = new File({
       name: 'multipleVersions.txt',
       data: [{
@@ -269,7 +269,7 @@ describe('File tests', () => {
     mvFile.save();
 
     chai.request(app)
-      .get(`/v1/files/${mvFileId}/2`)
+      .get(`/api/v1/files/${mvFileId}/2`)
       .end((err, res) => {
         res.should.have.status(200);
         res.should.be.json;
@@ -294,27 +294,27 @@ describe('File tests', () => {
       });
   });
 
-  it('should error on /v1/files/<id>/<version> POST', (done) => {
+  it('should error on /api/v1/files/<id>/<version> POST', (done) => {
     chai.request(app)
-      .post('/v1/files/123/1')
+      .post('/api/v1/files/123/1')
       .end((err, res) => {
         res.should.have.status(404);
         done();
       });
   });
 
-  it('should error on /v1/files/<id>/<version> PUT', (done) => {
+  it('should error on /api/v1/files/<id>/<version> PUT', (done) => {
     chai.request(app)
-      .put('/v1/files/123/1')
+      .put('/api/v1/files/123/1')
       .end((err, res) => {
         res.should.have.status(404);
         done();
       });
   });
 
-  it('should error on /v1/files/<id>/<version> DELETE', (done) => {
+  it('should error on /api/v1/files/<id>/<version> DELETE', (done) => {
     chai.request(app)
-      .del('/v1/files/123/1')
+      .del('/api/v1/files/123/1')
       .end((err, res) => {
         res.should.have.status(404);
         done();

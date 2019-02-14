@@ -64,7 +64,7 @@ export default {
   },
   mounted() {
     this.$axios
-      .get('http://localhost:8081/v1/files')
+      .get('http://localhost:8081/api/v1/files')
       .then((response) => {
         this.files = response.data;
       });

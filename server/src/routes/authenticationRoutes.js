@@ -5,9 +5,9 @@ import {
 
 const authenticationRoutes = (app) => {
   // TODO: add middleware for checking user authentication on logout route
-  app.route('/v1/authentication/login')
+  app.route('/api/v1/authentication/login')
     .post(loginUser);
-  app.route('/v1/authentication/logout')
+  app.route('/api/v1/authentication/logout')
     .post(logoutUser);
 };
 
