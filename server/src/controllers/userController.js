@@ -24,7 +24,7 @@ export const addNewUser = (req, res) => {
         if (err2) {
           res.status(500).send(err2);
         } else {
-          const newUser = new User({ username: req.body.username, password: hash });
+          const newUser = new User({ username: req.body.username, password: hash, salt });
           newUser.save((err3, file) => {
             if (err3) {
               res.status(500).send(err3);
@@ -73,6 +73,7 @@ export const updateUser = (req, res) => {
             } else {
               const newUser = currentUser;
               newUser.password = hash;
+              newUser.salt = salt;
               User.findOneAndUpdate({ username: req.params.username }, new User(newUser),
                 { new: true }, (err4, updatedUser) => {
                   if (err4) {

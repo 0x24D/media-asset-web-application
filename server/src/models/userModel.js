@@ -10,6 +10,10 @@ export const UserSchema = new mongoose.Schema({
     type: String,
     required: 'Enter a password',
   },
+  salt: {
+    type: String,
+    required: 'Enter a salt',
+  },
   token: {
     type: String,
   },
