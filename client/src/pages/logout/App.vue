@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Logout from './components/Logout.vue';
+import Logout from '../../components/Logout.vue';
 
 export default {
   name: 'app',

@@ -16,12 +16,12 @@
 export default {
   name: 'Login',
   data() {
-  return {
-    username: '',
-    password: '',
-  };
-},
-methods: {
+    return {
+      username: '',
+      password: '',
+    };
+  },
+  methods: {
     loginSubmit(username, password) {
       this.$axios
         .post('http://localhost:8081/api/v1/authentication/login', {
@@ -29,7 +29,7 @@ methods: {
         })
         .then((response) => {
           console.log(response);
-          //window.location.href = '/allPosts';
+          // window.location.href = '/allPosts';
           // window.location.href = `/post/${postId}`;
         })
         .catch((error) => {
