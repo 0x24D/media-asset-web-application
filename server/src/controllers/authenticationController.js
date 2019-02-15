@@ -47,7 +47,6 @@ export const loginUser = (req, res) => {
 
 export const logoutUser = (req, res) => {
   const tokenToCheck = req.headers.authorization;
-  console.log(tokenToCheck);
   User.findOne({ token: tokenToCheck }).lean().exec((err, user) => {
     if (err) {
       res.status(500).send(err);
@@ -68,7 +67,6 @@ export const logoutUser = (req, res) => {
 };
 
 export const isUserAuthenticated = (req, res, next) => {
-  console.log('isUserAuthenticated middleware called');
   const tokenFromUser = req.headers.authorization;
   if (tokenFromUser) {
     User.findOne({ token: tokenFromUser }).lean().exec((err) => {
