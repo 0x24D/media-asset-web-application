@@ -28,9 +28,8 @@ export default {
           username, password,
         })
         .then((response) => {
-          console.log(response);
-          // window.location.href = '/allPosts';
-          // window.location.href = `/post/${postId}`;
+          localStorage.token = response.data.token;
+          window.location.reload();
         })
         .catch((error) => {
           if (error.response) {
