@@ -1,13 +1,13 @@
 <template>
   <div id="loginForm">
     <form v-on:submit.prevent>
-      Username:<br/>
-      <input type="text" name="username" v-model="username"><br/>
-      Password:<br/>
-      <input type="password" name="password" v-model="password"/>
+      <label for="username">Username:</label><br/>
+      <input type="text" id="username" name="username" v-model="username"><br/>
+      <label for="password">Password:</label><br/>
+      <input type="password" id="password" name="password" v-model="password"/>
       <br/>
       <br/>
-      <input type="submit" value="Submit" @click="loginSubmit(username, password)">
+      <input type="submit" value="Login" @click="loginSubmit(username, password)">
     </form>
   </div>
 </template>
