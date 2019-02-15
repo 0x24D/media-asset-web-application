@@ -2,7 +2,7 @@
   <div id="files">
     <div class="file" v-for="file in files" :key="file._id">
       <div>
-        <h3 class="headline mb-0">{{ file.name }}</h3>
+        <h3>{{ file.name }}</h3>
           <div>
             <table>
               <tr>
@@ -10,7 +10,7 @@
                   Title:
                 </td>
                 <td>
-                  {{ file.data[file.data.length - 1].title }}
+                  <a :href="'/file/' + file._id">{{ file.data[file.data.length - 1].title }}</a>
                 </td>
               </tr>
               <tr>

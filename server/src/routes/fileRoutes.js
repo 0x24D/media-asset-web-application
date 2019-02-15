@@ -10,6 +10,7 @@ import {
   updateFile,
   deleteFile,
   getFileAndVersion,
+  lockFile,
 } from '../controllers/fileController';
 
 const fileRoutes = (app) => {
@@ -26,6 +27,9 @@ const fileRoutes = (app) => {
 
   app.route('/api/v1/files/:id/:version')
     .get(getFileAndVersion);
+
+  app.route('/api/v1/files/lock/:id')
+    .post(lockFile);
 };
 
 export default fileRoutes;

@@ -1,19 +1,35 @@
 <template>
   <div id="app">
+    <div v-if="userAuthenticated()">
+      <Logout/>
+    </div>
+    <div v-else>
+      <Login/>
+    </div>
     <NavigationBar/>
     <NewFile/>
   </div>
 </template>
 
 <script>
+import isUserAuthenticated from '../../utils/auth';
+import Login from '../../components/Login.vue';
+import Logout from '../../components/Logout.vue';
 import NewFile from '../../components/NewFile.vue';
 import NavigationBar from '../../components/NavigationBar.vue';
 
 export default {
   name: 'app',
   components: {
+    Login,
+    Logout,
     NewFile,
     NavigationBar,
+  },
+  methods: {
+    userAuthenticated() {
+      return isUserAuthenticated();
+    },
   },
 };
 </script>

@@ -57,6 +57,7 @@ export const updateFile = (req, res) => {
       res.status(500).send(err);
     } else {
       const newFile = currentFile;
+      newFile.locked = false;
       newFile.data[currentFile.data.length] = {
         version: currentFile.data.length + 1,
         title: req.body.title,
@@ -100,6 +101,25 @@ export const getFileAndVersion = (req, res) => {
         created_date: file.data[v].created_date,
         tags: file.data[v].tags,
       });
+    }
+  });
+};
+
+export const lockFile = (req, res) => {
+  File.findById(req.params.id).lean().exec((err, currentFile) => {
+    if (err) {
+      res.status(500).send(err);
+    } else {
+      const newFile = currentFile;
+      newFile.locked = true;
+      File.findOneAndUpdate({ _id: req.params.id }, new File(newFile),
+        { new: true }, (err2) => {
+          if (err2) {
+            res.status(500).send(err2);
+          } else {
+            res.send({ msg: 'File has been locked' });
+          }
+        });
     }
   });
 };

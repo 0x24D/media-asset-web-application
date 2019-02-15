@@ -1,9 +1,9 @@
 <template>
   <div id="file">
-    TO implement
+    TODO: implement view
     <div id="buttons">
-      <button @click="editFile(file._id)">Edit</button>
-      <button @click="deleteFile(file._id)">Delete</button>
+      <button id="editButton" @click="editFile(file._id)">Edit</button>
+      <button id="deleteButton" @click="deleteFile(file._id)">Delete</button>
     </div>
   </div>
 </template>
@@ -22,7 +22,9 @@ export default {
     this.$axios
       .get(`http://localhost:8081/api/v1/files/${fileId}`)
       .then((response) => {
-        this.post = response.data;
+        this.file = response.data;
+        document.getElementById("editButton").disabled = this.file.locked;
+        document.getElementById("deleteButton").disabled = this.file.locked; 
       })
       .catch((error) => {
         if (error.response) {

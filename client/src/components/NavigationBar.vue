@@ -1,9 +1,9 @@
 <template>
-<div id="navBar">
-  <a href="/index">Home</a>
-  <a href="/new">Add New File</a>
-  <a href="/all">View All Files</a>
-</div>
+  <div id="navBar">
+    <a href="/">Home</a>
+    <a href="/new">Add New File</a>
+    <a href="/all">View All Files</a>
+  </div>
 </template>
 
 <script>

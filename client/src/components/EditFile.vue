@@ -1,7 +1,7 @@
 <template>
   <div id="editFile">
     <form v-on:submit.prevent>
-      TO implement
+      TODO: implement edit
        <br/>
        <br/>
        <input type="submit" value="Edit" @click="editFileSubmit(file._id, file)">
@@ -24,6 +24,11 @@ export default {
       .get(`http://localhost:8081/api/v1/files/${fileId}`)
       .then((response) => {
         this.file = response.data;
+        this.$axios
+          .post(`http://localhost:8081/api/v1/files/lock/${fileId}`)
+          .then((response) => {
+            console.log(response.data);
+          })
       })
       .catch((error) => {
         if (error.response) {
