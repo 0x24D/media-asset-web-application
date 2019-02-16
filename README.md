@@ -26,12 +26,12 @@
 * Update - PUT
 * Delete - DELETE
 ```
-/v1/files GET - return list of all files and versions
+/v1/files GET - return list of latest version of all files
 /v1/files POST - create new file
 /v1/files PUT - error
 /v1/files DELETE - delete all files and versions
 
-/v1/files/{id} GET - return list of all versions of file
+/v1/files/{id} GET - return latest version of specific file
 /v1/files/{id} POST - error
 /v1/files/{id} PUT - update file (create new version)
 /v1/files/{id} DELETE - delete specific file and versions

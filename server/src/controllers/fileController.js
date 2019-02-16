@@ -4,11 +4,25 @@ import { FileSchema } from '../models/fileModel';
 const File = mongoose.model('file', FileSchema);
 
 export const getFiles = (req, res) => {
-  File.find({}).lean().exec((err, file) => {
+  File.find({}).lean().exec((err, files) => {
     if (err) {
       res.status(500).send(err);
     } else {
-      res.json(file);
+      const arrayOfFiles = [];
+      files.forEach((file) => {
+        const v = file.data.length - 1;
+        const fileJson = {
+          _id: file._id,
+          name: file.name,
+          version: file.data[v].version,
+          title: file.data[v].title,
+          author: file.data[v].author,
+          created_date: file.data[v].created_date,
+          tags: file.data[v].tags,
+        };
+        arrayOfFiles.push(fileJson);
+      });
+      res.json(arrayOfFiles);
     }
   });
 };
@@ -46,7 +60,16 @@ export const getFileById = (req, res) => {
     if (err) {
       res.status(500).send(err);
     } else {
-      res.json(file);
+      const v = file.data.length - 1;
+      res.json({
+        _id: file._id,
+        name: file.name,
+        version: file.data[v].version,
+        title: file.data[v].title,
+        author: file.data[v].author,
+        created_date: file.data[v].created_date,
+        tags: file.data[v].tags,
+      });
     }
   });
 };
