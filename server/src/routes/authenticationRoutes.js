@@ -1,5 +1,5 @@
 import {
-  // isUserAuthenticated,
+  isUserAuthenticated,
   loginUser,
   logoutUser,
 } from '../controllers/authenticationController';
@@ -7,7 +7,7 @@ import {
 const authenticationRoutes = (app) => {
   app.route('/api/v1/authentication/login')
     .post(loginUser);
-  // app.use(isUserAuthenticated);
+  app.use(isUserAuthenticated);
   app.route('/api/v1/authentication/logout')
     .post(logoutUser);
 };

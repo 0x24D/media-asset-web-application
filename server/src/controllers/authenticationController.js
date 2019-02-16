@@ -57,7 +57,7 @@ export const logoutUser = (req, res) => {
             console.log(`Error: ${err2}`);
             res.status(500).send(err2);
           } else {
-            res.json({ msg: 'Please remove your token' }); // TODO: client side  - remove from storage (localstorage or cookie)
+            res.status(204).end();
           }
         });
     } else {
