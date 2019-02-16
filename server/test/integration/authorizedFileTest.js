@@ -5,18 +5,30 @@ import mongoose from 'mongoose';
 import app from '../../app';
 
 import { FileSchema } from '../../src/models/fileModel';
+import { UserSchema } from '../../src/models/userModel';
 
 const chaiHttp = require('chai-http');
 
 const should = chai.should();
 
 const File = mongoose.model('file', FileSchema);
+const User = mongoose.model('user', UserSchema);
 
 chai.use(chaiHttp);
 
-describe('File tests', () => {
-  let file1Id; let
-    file2Id;
+describe('Authorized file tests', () => {
+  let file1Id;
+  let file2Id;
+  const token = '123456';
+  before((done) => {
+    const newUser1 = new User({
+      username: 'testUser1',
+      password: 'testPassword1',
+      token: token,
+    });
+    newUser1.save();
+    done();
+  })
   beforeEach((done) => {
     const newFile1 = new File({
       name: 'testFile1.txt',
@@ -40,9 +52,12 @@ describe('File tests', () => {
       done();
     });
   });
-
   afterEach((done) => {
     File.collection.drop();
+    done();
+  });
+  after((done) => {
+    User.collection.drop();
     done();
   });
 
@@ -67,6 +82,7 @@ describe('File tests', () => {
 
     chai.request(app)
       .get('/api/v1/files')
+      .set('Authorization', token)
       .end((err, res) => {
         res.should.have.status(200);
         res.should.be.json;
@@ -131,6 +147,7 @@ describe('File tests', () => {
   it('should add new file on /api/v1/files POST', (done) => {
     chai.request(app)
       .post('/api/v1/files')
+      .set('Authorization', token)
       .set('content-type', 'application/x-www-form-urlencoded')
       .send({
         name: 'testFile3.doc',
@@ -169,6 +186,7 @@ describe('File tests', () => {
   it('should error on /api/v1/files PUT', (done) => {
     chai.request(app)
       .put('/api/v1/files')
+      .set('Authorization', token)
       .end((err, res) => {
         res.should.have.status(404);
         done();
@@ -178,6 +196,7 @@ describe('File tests', () => {
   it('should delete all files on /api/v1/files DELETE', (done) => {
     chai.request(app)
       .del('/api/v1/files')
+      .set('Authorization', token)
       .end((err, res) => {
         res.should.have.status(204);
         // TODO: how to check number of files left? File.countDocuments returns null
@@ -206,6 +225,7 @@ describe('File tests', () => {
 
     chai.request(app)
       .get(`/api/v1/files/${mvFileId}`)
+      .set('Authorization', token)
       .end((err, res) => {
         res.should.have.status(200);
         res.should.be.json;
@@ -233,6 +253,7 @@ describe('File tests', () => {
   it('should error on /api/v1/files/<id> POST', (done) => {
     chai.request(app)
       .post('/api/v1/files/123')
+      .set('Authorization', token)
       .end((err, res) => {
         res.should.have.status(404);
         done();
@@ -242,6 +263,7 @@ describe('File tests', () => {
   it('should add new version on /api/v1/files/<id> PUT', (done) => {
     chai.request(app)
       .put(`/api/v1/files/${file1Id}`)
+      .set('Authorization', token)
       .set('content-type', 'application/x-www-form-urlencoded')
       .send({
         title: 'This is the first test file - second version',
@@ -281,6 +303,7 @@ describe('File tests', () => {
   it('should delete 1 file on /api/v1/files/<id> DELETE', (done) => {
     chai.request(app)
       .del(`/api/v1/files/${file1Id}`)
+      .set('Authorization', token)
       .end((err, res) => {
         res.should.have.status(204);
         // TODO: how to check number of files left? File.countDocuments returns null
@@ -309,6 +332,7 @@ describe('File tests', () => {
 
     chai.request(app)
       .get(`/api/v1/files/${mvFileId}/2`)
+      .set('Authorization', token)
       .end((err, res) => {
         res.should.have.status(200);
         res.should.be.json;
@@ -336,6 +360,7 @@ describe('File tests', () => {
   it('should error on /api/v1/files/<id>/<version> POST', (done) => {
     chai.request(app)
       .post('/api/v1/files/123/1')
+      .set('Authorization', token)
       .end((err, res) => {
         res.should.have.status(404);
         done();
@@ -345,6 +370,7 @@ describe('File tests', () => {
   it('should error on /api/v1/files/<id>/<version> PUT', (done) => {
     chai.request(app)
       .put('/api/v1/files/123/1')
+      .set('Authorization', token)
       .end((err, res) => {
         res.should.have.status(404);
         done();
@@ -354,6 +380,7 @@ describe('File tests', () => {
   it('should error on /api/v1/files/<id>/<version> DELETE', (done) => {
     chai.request(app)
       .del('/api/v1/files/123/1')
+      .set('Authorization', token)
       .end((err, res) => {
         res.should.have.status(404);
         done();

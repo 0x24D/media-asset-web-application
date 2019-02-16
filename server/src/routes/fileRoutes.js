@@ -1,6 +1,6 @@
-// import {
-//   isUserAuthenticated,
-// } from '../controllers/authenticationController';
+import {
+  isUserAuthenticated,
+} from '../controllers/authenticationController';
 
 import {
   addNewFile,
@@ -14,7 +14,7 @@ import {
 } from '../controllers/fileController';
 
 const fileRoutes = (app) => {
-  // app.use(isUserAuthenticated);
+  app.use(isUserAuthenticated);
   app.route('/api/v1/files')
     .get(getFiles)
     .post(addNewFile)

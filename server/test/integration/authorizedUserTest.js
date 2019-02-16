@@ -14,7 +14,8 @@ const User = mongoose.model('user', UserSchema);
 
 chai.use(chaiHttp);
 
-describe('User tests', () => {
+describe('Authorized user tests', () => {
+  const token = '123456';
   beforeEach((done) => {
     const newUser1 = new User({
       username: 'testUser1',
@@ -23,6 +24,7 @@ describe('User tests', () => {
     const newUser2 = new User({
       username: 'testUser2',
       password: 'testPassword2',
+      token: token,
     });
     User.insertMany([newUser1, newUser2], () => {
       done();
@@ -37,6 +39,7 @@ describe('User tests', () => {
   it('should list all users on /api/v1/users GET', (done) => {
     chai.request(app)
       .get('/api/v1/users')
+      .set('Authorization', token)
       .end((err, res) => {
         res.should.have.status(200);
         res.should.be.json;
@@ -59,6 +62,7 @@ describe('User tests', () => {
   it('should add new user on /api/v1/users POST', (done) => {
     chai.request(app)
       .post('/api/v1/users')
+      .set('Authorization', token)
       .set('content-type', 'application/x-www-form-urlencoded')
       .send({
         username: 'testUser3',
@@ -80,6 +84,7 @@ describe('User tests', () => {
   it('should error on /api/v1/users PUT', (done) => {
     chai.request(app)
       .put('/api/v1/users')
+      .set('Authorization', token)
       .end((err, res) => {
         res.should.have.status(404);
         done();
@@ -89,6 +94,7 @@ describe('User tests', () => {
   it('should delete all users on /api/v1/users DELETE', (done) => {
     chai.request(app)
       .del('/api/v1/users')
+      .set('Authorization', token)
       .end((err, res) => {
         res.should.have.status(204);
         // TODO: how to check number of users left?
@@ -99,6 +105,7 @@ describe('User tests', () => {
   it('should list 1 user on /api/v1/users/<username> GET', (done) => {
     chai.request(app)
       .get('/api/v1/users/testUser1')
+      .set('Authorization', token)
       .end((err, res) => {
         res.should.have.status(200);
         res.should.be.json;
@@ -115,6 +122,7 @@ describe('User tests', () => {
   it('should error on /api/v1/users/<username> POST', (done) => {
     chai.request(app)
       .post('/api/v1/users/testUser1')
+      .set('Authorization', token)
       .end((err, res) => {
         res.should.have.status(404);
         done();
@@ -124,6 +132,7 @@ describe('User tests', () => {
   it('should update 1 user on /api/v1/users/<username> PUT', (done) => {
     chai.request(app)
       .put('/api/v1/users/testUser1')
+      .set('Authorization', token)
       .set('content-type', 'application/x-www-form-urlencoded')
       .send({
         username: 'testUser1',
@@ -145,6 +154,7 @@ describe('User tests', () => {
   it('should delete 1 user on /api/v1/users/<username> DELETE', (done) => {
     chai.request(app)
       .del('/api/v1/users/testUser1')
+      .set('Authorization', token)
       .end((err, res) => {
         res.should.have.status(204);
         // TODO: how to check number of users left?
