@@ -51,7 +51,7 @@ export const logoutUser = (req, res) => {
     if (err) {
       res.status(500).send(err);
     } else if (user && user.token === tokenToCheck) {
-      unsetPropertyByUsername(user.username, { $unset: { token: tokenToCheck } }, (err2) => {
+      unsetPropertyByUsername(user.username, { token: tokenToCheck }, (err2) => {
         if (err2) {
           console.log(`Error: ${err2}`);
           res.status(500).send(err2);

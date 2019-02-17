@@ -39,7 +39,7 @@ export const findByProperty = (property, value, callback) => {
 };
 
 export const unsetPropertyByUsername = (username, propertyToUnset, callback) => {
-  User.findOneAndUpdate({ username }, propertyToUnset, { new: true }, (err, user) => {
+  User.findOneAndUpdate({ username }, { $unset: propertyToUnset }, { new: true }, (err, user) => {
     callback(err, user);
   });
 };
