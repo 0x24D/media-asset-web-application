@@ -79,7 +79,7 @@ describe('Authorized file tests', () => {
     });
     const mvFileId = String(mvFile._id);
     mvFile.save();
-
+    
     chai.request(app)
       .get('/api/v1/files')
       .set('Authorization', token)

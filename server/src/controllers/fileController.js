@@ -1,10 +1,14 @@
-import mongoose from 'mongoose';
-import { FileSchema } from '../models/fileModel';
-
-const File = mongoose.model('file', FileSchema);
+import {
+  addNew,
+  deleteAll,
+  deleteById,
+  findAll,
+  findById,
+  updateExistingById,
+} from '../db/fileAccess';
 
 export const getFiles = (req, res) => {
-  File.find({}).lean().exec((err, files) => {
+  findAll((err, files) => {
     if (err) {
       res.status(500).send(err);
     } else {
@@ -28,15 +32,13 @@ export const getFiles = (req, res) => {
 };
 
 export const addNewFile = (req, res) => {
-  const newFile = new File({
+  const dataToSave = {
     name: req.body.name,
-    data: [{
-      title: req.body.title,
-      author: req.body.author,
-      tags: req.body.tags,
-    }],
-  });
-  newFile.save((err, file) => {
+    title: req.body.title,
+    author: req.body.author,
+    tags: req.body.tags,
+  };
+  addNew(dataToSave, (err, file) => {
     if (err) {
       res.status(500).send(err);
     } else {
@@ -46,7 +48,7 @@ export const addNewFile = (req, res) => {
 };
 
 export const deleteAllFiles = (req, res) => {
-  File.deleteMany({}, (err) => {
+  deleteAll((err) => {
     if (err) {
       res.status(500).send(err);
     } else {
@@ -56,7 +58,7 @@ export const deleteAllFiles = (req, res) => {
 };
 
 export const getFileById = (req, res) => {
-  File.findById(req.params.id).lean().exec((err, file) => {
+  findById(req.params.id, (err, file) => {
     if (err) {
       res.status(500).send(err);
     } else {
@@ -75,32 +77,31 @@ export const getFileById = (req, res) => {
 };
 
 export const updateFile = (req, res) => {
-  File.findById(req.params.id).lean().exec((err, currentFile) => {
+  const fileId = req.params.id;
+  findById(fileId, (err, currentFile) => {
     if (err) {
       res.status(500).send(err);
     } else {
-      const newFile = currentFile;
-      newFile.locked = false;
-      newFile.data[currentFile.data.length] = {
+      const updateData = {
+        locked: false,
         version: currentFile.data.length + 1,
         title: req.body.title,
         author: req.body.author,
         tags: req.body.tags,
       };
-      File.findOneAndUpdate({ _id: req.params.id }, new File(newFile),
-        { new: true }, (err2, updatedFile) => {
-          if (err2) {
-            res.status(500).send(err2);
-          } else {
-            res.json(updatedFile);
-          }
-        });
+      updateExistingById(fileId, currentFile, updateData, (err2, updatedFile) => {
+        if (err2) {
+          res.status(500).send(err2);
+        } else {
+          res.json(updatedFile);
+        }
+      });
     }
   });
 };
 
 export const deleteFile = (req, res) => {
-  File.findByIdAndDelete(req.params.id, (err) => {
+  deleteById(req.params.id, (err) => {
     if (err) {
       res.status(500).send(err);
     } else {
@@ -110,7 +111,7 @@ export const deleteFile = (req, res) => {
 };
 
 export const getFileAndVersion = (req, res) => {
-  File.findById(req.params.id).lean().exec((err, file) => {
+  findById(req.params.id, (err, file) => {
     if (err) {
       res.status(500).send(err);
     } else {
@@ -129,20 +130,20 @@ export const getFileAndVersion = (req, res) => {
 };
 
 export const lockFile = (req, res) => {
-  File.findById(req.params.id).lean().exec((err, currentFile) => {
+  const fileId = req.params.id;
+  findById(fileId, (err, currentFile) => {
     if (err) {
       res.status(500).send(err);
     } else {
       const newFile = currentFile;
       newFile.locked = true;
-      File.findOneAndUpdate({ _id: req.params.id }, new File(newFile),
-        { new: true }, (err2) => {
-          if (err2) {
-            res.status(500).send(err2);
-          } else {
-            res.send({ msg: 'File has been locked' });
-          }
-        });
+      updateExistingById(fileId, newFile, (err2) => {
+        if (err2) {
+          res.status(500).send(err2);
+        } else {
+          res.send({ msg: 'File has been locked' });
+        }
+      });
     }
   });
 };
