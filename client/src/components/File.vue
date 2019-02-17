@@ -1,6 +1,7 @@
 <template>
   <div id="file">
-    TODO: implement view
+    TODO: implement view<br/>
+    {{ file.title }}
     <div id="buttons">
       <button id="editButton" @click="editFile(file._id)">Edit</button>
       <button id="deleteButton" @click="deleteFile(file._id)">Delete</button>
@@ -11,20 +12,21 @@
 <script>
 export default {
   name: 'File',
+  props: {
+    fileId: String,
+  },
   data() {
     return {
       file: {},
     };
   },
   created() {
-    const currentUrl = window.location.pathname.split('/');
-    const fileId = currentUrl[2];
     this.$axios
-      .get(`http://localhost:8081/api/v1/files/${fileId}`)
+      .get(`http://localhost:8081/api/v1/files/${this.fileId}`)
       .then((response) => {
         this.file = response.data;
-        document.getElementById("editButton").disabled = this.file.locked;
-        document.getElementById("deleteButton").disabled = this.file.locked; 
+        document.getElementById('editButton').disabled = this.file.locked;
+        document.getElementById('deleteButton').disabled = this.file.locked;
       })
       .catch((error) => {
         if (error.response) {
@@ -47,33 +49,10 @@ export default {
   },
   methods: {
     deleteFile(fileId) {
-      this.$axios
-        .delete(`http://localhost:8081/api/v1/files/${fileId}`)
-        .then(() => {
-          this.file = [];
-          window.location.href = '/all';
-        })
-        .catch((error) => {
-          if (error.response) {
-            // The request was made and the server responded with a status code
-            // that falls out of the range of 2xx
-            console.log(error.response.data);
-            console.log(error.response.status);
-            console.log(error.response.headers);
-          } else if (error.request) {
-            // The request was made but no response was received
-            // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-            // http.ClientRequest in node.js
-            console.log(error.request);
-          } else {
-            // Something happened in setting up the request that triggered an Error
-            console.log('Error', error.message);
-          }
-          console.log(error.config);
-        });
+      console.log('TODO: implement deleteFile in File');
     },
     editFile(fileId) {
-      window.location.href = `/edit/${fileId}`;
+      console.log('TODO: implement editFile in File');
     },
   },
 };

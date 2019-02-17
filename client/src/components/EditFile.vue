@@ -1,7 +1,8 @@
 <template>
   <div id="editFile">
     <form v-on:submit.prevent>
-      TODO: implement edit
+      TODO: implement edit <br/>
+        {{ file.title }}
        <br/>
        <br/>
        <input type="submit" value="Edit" @click="editFileSubmit(file._id, file)">
@@ -12,23 +13,19 @@
 <script>
 export default {
   name: 'EditFile',
+  props: {
+    fileId: String,
+  },
   data() {
     return {
       file: {},
     };
   },
   created() {
-    const currentUrl = window.location.pathname.split('/');
-    const fileId = currentUrl[2];
     this.$axios
-      .get(`http://localhost:8081/api/v1/files/${fileId}`)
+      .get(`http://localhost:8081/api/v1/files/${this.fileId}`)
       .then((response) => {
         this.file = response.data;
-        this.$axios
-          .post(`http://localhost:8081/api/v1/files/lock/${fileId}`)
-          .then((response) => {
-            console.log(response.data);
-          })
       })
       .catch((error) => {
         if (error.response) {
@@ -53,10 +50,10 @@ export default {
     editFileSubmit(fileId, formData) {
       this.$axios
         .put(`http://localhost:8081/api/v1/files/${fileId}`, {
-          // TODO
+          // TODO: implement
         })
         .then((response) => {
-          window.location.href = `/view/${fileId}`;
+          // TODO: close modal
         })
         .catch((error) => {
           if (error.response) {

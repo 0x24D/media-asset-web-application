@@ -1,7 +1,7 @@
 <template>
   <div id="files">
     <div class="file" v-for="file in files" :key="file._id">
-      <div>
+      <div @click="viewAllVersions(file._id)">
         <h3>{{ file.name }}</h3>
           <div>
             <table>
@@ -10,7 +10,7 @@
                   Title:
                 </td>
                 <td>
-                  <a :href="'/file/' + file._id">{{ file.data[file.data.length - 1].title }}</a>
+                  {{ file.title }}
                 </td>
               </tr>
               <tr>
@@ -18,7 +18,7 @@
                   Author:
                 </td>
                 <td>
-                  {{ file.data[file.data.length - 1].author }}
+                  {{ file.author }}
                 </td>
               </tr>
               <tr>
@@ -26,7 +26,7 @@
                   Tags:
                 </td>
                 <td>
-                  <div v-for="tag in file.data[file.data.length -1].tags" :key="tag">
+                  <div v-for="tag in file.tags" :key="tag">
                     {{ tag }}
                   </div>
                 </td>
@@ -36,7 +36,7 @@
                   Created date:
                 </td>
                 <td>
-                  {{ file.data[file.data.length - 1].created_date }}
+                  {{ file.created_date }}
                 </td>
               </tr>
               <tr>
@@ -44,23 +44,45 @@
                   Version:
                 </td>
                 <td>
-                  {{ file.data[file.data.length - 1].version }}
+                  {{ file.version }}
                 </td>
               </tr>
             </table>
           </div>
       </div>
+      <div id="buttons">
+        <button id="editButton" @click="editFile(file._id)">Edit</button>
+        <button id="deleteButton" @click="deleteFile(file._id)">Delete</button>
+      </div>
     </div>
   </div>
+  <!-- <File/> -->
 </template>
 
 <script>
+import File from './File.vue';
 export default {
   name: 'ListOfFiles',
   data() {
     return {
-      files: null,
+      files: [],
     };
+  },
+  components: {
+    File,
+  },
+  methods: {
+    deleteFile(fileId) {
+      console.log('TODO: implement deleteFile in ListOfFiles');
+    },
+    editFile(fileId) {
+      this.$store.commit('app/setFileIdToDisplay', fileId);
+      this.$store.commit('app/setEditFileDisplayMode', true);
+    },
+    viewAllVersions(fileId) {
+      this.$store.commit('app/setFileIdToDisplay', fileId);
+      this.$store.commit('app/setFileDisplayMode', true);
+    },
   },
   mounted() {
     this.$axios

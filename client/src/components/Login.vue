@@ -70,20 +70,4 @@ li {
 a {
   color: #42b983;
 }
-#loginForm form {
-  display: flex;
-  flex-flow: row wrap;
-  align-items: center;
-}
-#loginForm form label {
-  margin: 5px 10px 5px 0;
-}
-#loginForm form input {
-  vertical-align: middle;
-  margin: 5px 10px 5px 0;
-  padding: 10px;
-  background-color: #fff;
-  border: 1px solid #ddd;
-}
-
 </style>
