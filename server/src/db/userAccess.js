@@ -32,23 +32,16 @@ export const findAll = ((callback) => {
   });
 });
 
-export const findByToken = (token, callback) => {
-  User.findOne({ token }).lean().exec((err, user) => {
-    callback(err, user);
-  });
-};
-
-export const findByUsername = (username, callback) => {
-  User.findOne({ username }).lean().exec((err, user) => {
+export const findByProperty = (property, value, callback) => {
+  User.findOne({ [property]: value }).lean().exec((err, user) => {
     callback(err, user);
   });
 };
 
 export const unsetPropertyByUsername = (username, propertyToUnset, callback) => {
-  User.findOneAndUpdate({ username }, propertyToUnset,
-    { new: true }, (err, user) => {
-      callback(err, user);
-    });
+  User.findOneAndUpdate({ username }, propertyToUnset, { new: true }, (err, user) => {
+    callback(err, user);
+  });
 };
 
 export const updateExistingByUsername = (username, updatedUser, callback) => {

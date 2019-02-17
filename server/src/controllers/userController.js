@@ -4,7 +4,7 @@ import {
   deleteAll,
   deleteByUsername,
   findAll,
-  findByUsername,
+  findByProperty,
   updateExistingByUsername,
 } from '../db/userAccess';
 
@@ -54,7 +54,7 @@ export const deleteAllUsers = (req, res) => {
 };
 
 export const getUserByUsername = (req, res) => {
-  findByUsername(req.params.username, (err, user) => {
+  findByProperty('username', req.params.username, (err, user) => {
     if (err) {
       res.status(500).send(err);
     } else {
@@ -65,7 +65,7 @@ export const getUserByUsername = (req, res) => {
 
 export const updateUser = (req, res) => {
   const uName = req.params.username;
-  findByUsername(uName, (err, currentUser) => {
+  findByProperty('username', uName, (err, currentUser) => {
     if (err) {
       res.status(500).send(err);
     } else if (req.body.password) {

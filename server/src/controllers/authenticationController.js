@@ -1,8 +1,7 @@
 import Paseto from 'paseto.js';
 import bcrypt from 'bcryptjs';
 import {
-  findByToken,
-  findByUsername,
+  findByProperty,
   unsetPropertyByUsername,
   updateExistingByUsername,
 } from '../db/userAccess';
@@ -10,7 +9,7 @@ import {
 export const loginUser = (req, res) => {
   const unHashedPassword = req.body.password;
   let hashedPassword;
-  findByUsername(req.body.username, (err, user) => {
+  findByProperty('username', req.body.username, (err, user) => {
     if (err) {
       res.status(500).send(err);
     } else {
@@ -48,7 +47,7 @@ export const loginUser = (req, res) => {
 
 export const logoutUser = (req, res) => {
   const tokenToCheck = req.headers.authorization;
-  findByToken(tokenToCheck, (err, user) => {
+  findByProperty('token', tokenToCheck, (err, user) => {
     if (err) {
       res.status(500).send(err);
     } else if (user && user.token === tokenToCheck) {
@@ -69,7 +68,7 @@ export const logoutUser = (req, res) => {
 export const isUserAuthenticated = (req, res, next) => {
   const tokenFromUser = req.headers.authorization;
   if (tokenFromUser) {
-    findByToken(tokenFromUser, (err) => {
+    findByProperty('token', tokenFromUser, (err) => {
       if (err) {
         res.status(401).end();
       } else {
