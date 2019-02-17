@@ -3,12 +3,12 @@ import mongoose from 'mongoose';
 export const UserSchema = new mongoose.Schema({
   username: {
     type: String,
-    required: 'Enter a username',
+    required: true,
     index: { unique: true },
   },
   password: {
     type: String,
-    required: 'Enter a password',
+    required: true,
   },
   salt: {
     type: String,

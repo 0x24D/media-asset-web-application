@@ -1,16 +1,21 @@
-import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
-import { UserSchema } from '../models/userModel';
+import {
+  addNew,
+  deleteAll,
+  deleteByUsername,
+  findAll,
+  findByUsername,
+  updateExistingByUsername,
+} from '../db/userAccess';
 
 const SALT_WORK_FACTOR = 10;
-const User = mongoose.model('user', UserSchema);
 
 export const getUsers = (req, res) => {
-  User.find({}).lean().exec((err, user) => {
+  findAll((err, users) => {
     if (err) {
       res.status(500).send(err);
     } else {
-      res.json(user);
+      res.json(users);
     }
   });
 };
@@ -24,8 +29,8 @@ export const addNewUser = (req, res) => {
         if (err2) {
           res.status(500).send(err2);
         } else {
-          const newUser = new User({ username: req.body.username, password: hash, salt });
-          newUser.save((err3, file) => {
+          const newUser = { username: req.body.username, password: hash, salt };
+          addNew(newUser, (err3, file) => {
             if (err3) {
               res.status(500).send(err3);
             } else {
@@ -39,7 +44,7 @@ export const addNewUser = (req, res) => {
 };
 
 export const deleteAllUsers = (req, res) => {
-  User.deleteMany({}, (err) => {
+  deleteAll((err) => {
     if (err) {
       res.status(500).send(err);
     } else {
@@ -49,7 +54,7 @@ export const deleteAllUsers = (req, res) => {
 };
 
 export const getUserByUsername = (req, res) => {
-  User.findOne({ username: req.params.username }).lean().exec((err, user) => {
+  findByUsername(req.params.username, (err, user) => {
     if (err) {
       res.status(500).send(err);
     } else {
@@ -59,7 +64,8 @@ export const getUserByUsername = (req, res) => {
 };
 
 export const updateUser = (req, res) => {
-  User.findOne({ username: req.params.username }).lean().exec((err, currentUser) => {
+  const uName = req.params.username;
+  findByUsername(uName, (err, currentUser) => {
     if (err) {
       res.status(500).send(err);
     } else if (req.body.password) {
@@ -74,14 +80,13 @@ export const updateUser = (req, res) => {
               const newUser = currentUser;
               newUser.password = hash;
               newUser.salt = salt;
-              User.findOneAndUpdate({ username: req.params.username }, new User(newUser),
-                { new: true }, (err4, updatedUser) => {
-                  if (err4) {
-                    res.status(500).send(err4);
-                  } else {
-                    res.json(updatedUser);
-                  }
-                });
+              updateExistingByUsername(uName, newUser, (err4, updatedUser) => {
+                if (err4) {
+                  res.status(500).send(err4);
+                } else {
+                  res.json(updatedUser);
+                }
+              });
             }
           });
         }
@@ -93,7 +98,7 @@ export const updateUser = (req, res) => {
 };
 
 export const deleteUser = (req, res) => {
-  User.findOneAndDelete({ username: req.params.username }, (err) => {
+  deleteByUsername(req.params.username, (err) => {
     if (err) {
       res.status(500).send(err);
     } else {
