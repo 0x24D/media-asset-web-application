@@ -4,11 +4,11 @@
     <img alt="Vue logo" src="./assets/logo.png">
     <div v-if="userAuthenticated()">
       <ListOfFiles/>
-      <div v-if="this.$store.state.app.showFileModal">
-        <File :file-id="this.$store.state.app.fileId"/>
+      <div v-if="this.$store.state.showFileModal">
+        <File :file-id="this.$store.state.fileId"/>
       </div>
-      <div v-if="this.$store.state.app.showEditFileModal">
-        <EditFile :file-id="this.$store.state.app.fileId"/>
+      <div v-if="this.$store.state.showEditFileModal">
+        <EditFile :file-id="this.$store.state.fileId"/>
       </div>
     </div>
     <div v-else>

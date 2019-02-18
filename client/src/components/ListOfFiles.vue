@@ -56,11 +56,11 @@
       </div>
     </div>
   </div>
-  <!-- <File/> -->
 </template>
 
 <script>
 import File from './File.vue';
+
 export default {
   name: 'ListOfFiles',
   data() {
@@ -73,15 +73,21 @@ export default {
   },
   methods: {
     deleteFile(fileId) {
-      console.log('TODO: implement deleteFile in ListOfFiles');
+      this.$axios
+        .delete(`http://localhost:8081/api/v1/files/${fileId}`)
+        .then(() => {
+          this.files = [];
+          window.location.reload();
+          console.log(`File ${fileId} has been deleted`);
+        });
     },
     editFile(fileId) {
-      this.$store.commit('app/setFileIdToDisplay', fileId);
-      this.$store.commit('app/setEditFileDisplayMode', true);
+      this.$store.commit('setFileIdToDisplay', fileId);
+      this.$store.commit('setEditFileDisplayMode', true);
     },
     viewAllVersions(fileId) {
-      this.$store.commit('app/setFileIdToDisplay', fileId);
-      this.$store.commit('app/setFileDisplayMode', true);
+      this.$store.commit('setFileIdToDisplay', fileId);
+      this.$store.commit('setFileDisplayMode', true);
     },
   },
   mounted() {

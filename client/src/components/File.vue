@@ -2,10 +2,6 @@
   <div id="file">
     TODO: implement view<br/>
     {{ file.title }}
-    <div id="buttons">
-      <button id="editButton" @click="editFile(file._id)">Edit</button>
-      <button id="deleteButton" @click="deleteFile(file._id)">Delete</button>
-    </div>
   </div>
 </template>
 
@@ -25,8 +21,6 @@ export default {
       .get(`http://localhost:8081/api/v1/files/${this.fileId}`)
       .then((response) => {
         this.file = response.data;
-        document.getElementById('editButton').disabled = this.file.locked;
-        document.getElementById('deleteButton').disabled = this.file.locked;
       })
       .catch((error) => {
         if (error.response) {
