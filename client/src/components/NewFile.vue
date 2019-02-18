@@ -1,9 +1,21 @@
 <template>
   <div id="editFile">
-    <form v-on:submit.prevent>
-      To implement
-       <input type="submit" value="Submit" @click="newFileSubmit(file._id, file)">
-    </form>
+    <dialog open>
+      <form @submit.prevent>
+        <label for="name">File name: </label>
+        <input type="text" id="name" v-model="file.name"><br/>
+        <label for="title">Title: </label>
+        <input type="text" id="title" v-model="file.title"><br/>
+        <label for="author">Author: </label>
+        <input type="text" id="author" v-model="file.author"><br/>
+        <label for="tags[0]">Tags: </label>
+        <input type="text" id="tags[0]" v-model="file.tags[0]"><br/>
+        <br/>
+
+        <input type="submit" value="Submit" @click="newFileSubmit(file._id, file)">
+        <input type="submit" value="Close" @click="newFileClose()">
+      </form>
+    </dialog>
   </div>
 </template>
 
@@ -12,17 +24,29 @@ export default {
   name: 'NewFile',
   data() {
     return {
-      file: {},
+      file: {
+        name: '',
+        title: '',
+        author: '',
+        tags: [],
+      },
     };
   },
   methods: {
+    newFileClose() {
+      this.$store.commit('setNewFileDisplayMode', false);
+    },
     newFileSubmit(fileId, formData) {
       this.$axios
-        .post('http://localhost:8081/api/v1/file/', {
-          // TODO
+        .post('http://localhost:8081/api/v1/files/', {
+          name: formData.name,
+          title: formData.title,
+          author: formData.author,
+          tags: formData.tags,
         })
         .then(() => {
-          window.location.href = '/all';
+          this.$store.commit('setNewFileDisplayMode', false);
+          window.location.reload();
         })
         .catch((error) => {
           if (error.response) {
