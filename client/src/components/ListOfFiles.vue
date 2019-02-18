@@ -1,5 +1,8 @@
 <template>
   <div id="files">
+    <div class="buttons">
+      <button id="newButton" @click="newFile()">New</button>
+    </div>
     <div class="file" v-for="file in files" :key="file._id">
       <div @click="viewAllVersions(file._id)">
         <h3>{{ file.name }}</h3>
@@ -50,7 +53,7 @@
             </table>
           </div>
       </div>
-      <div id="buttons">
+      <div class="buttons">
         <button id="editButton" @click="editFile(file._id)">Edit</button>
         <button id="deleteButton" @click="deleteFile(file._id)">Delete</button>
       </div>
@@ -59,8 +62,6 @@
 </template>
 
 <script>
-import File from './File.vue';
-
 export default {
   name: 'ListOfFiles',
   data() {
@@ -68,29 +69,27 @@ export default {
       files: [],
     };
   },
-  components: {
-    File,
-  },
   methods: {
     deleteFile(fileId) {
       this.$axios
         .delete(`http://localhost:8081/api/v1/files/${fileId}`)
         .then(() => {
-          this.files = [];
           window.location.reload();
-          console.log(`File ${fileId} has been deleted`);
         });
     },
     editFile(fileId) {
       this.$store.commit('setFileIdToDisplay', fileId);
       this.$store.commit('setEditFileDisplayMode', true);
     },
+    newFile() {
+      this.$store.commit('setNewFileDisplayMode', true);
+    },
     viewAllVersions(fileId) {
       this.$store.commit('setFileIdToDisplay', fileId);
       this.$store.commit('setFileDisplayMode', true);
     },
   },
-  mounted() {
+  created() {
     this.$axios
       .get('http://localhost:8081/api/v1/files')
       .then((response) => {
