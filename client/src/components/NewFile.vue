@@ -8,8 +8,8 @@
         <input type="text" id="title" v-model="file.title"><br/>
         <label for="author">Author: </label>
         <input type="text" id="author" v-model="file.author"><br/>
-        <label for="tags[0]">Tags: </label>
-        <input type="text" id="tags[0]" v-model="file.tags[0]"><br/>
+        <label for="tags">Tags: </label>
+        <input type="text" id="tags" v-model="file.tags"><br/>
         <br/>
 
         <input type="submit" value="Submit" @click="newFileSubmit(file._id, file)">
@@ -28,7 +28,7 @@ export default {
         name: '',
         title: '',
         author: '',
-        tags: [],
+        tags: '',
       },
     };
   },
@@ -37,12 +37,14 @@ export default {
       this.$store.commit('setNewFileDisplayMode', false);
     },
     newFileSubmit(fileId, formData) {
+      const tags = formData.tags.split(',');
+      console.log(tags);
       this.$axios
         .post('http://localhost:8081/api/v1/files/', {
           name: formData.name,
           title: formData.title,
           author: formData.author,
-          tags: formData.tags,
+          tags: tags,
         })
         .then(() => {
           this.$store.commit('setNewFileDisplayMode', false);
