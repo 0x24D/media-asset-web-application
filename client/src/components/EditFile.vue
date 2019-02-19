@@ -1,12 +1,21 @@
 <template>
   <div id="editFile">
-    <form v-on:submit.prevent>
-      TODO: implement edit <br/>
-        {{ file.title }}
-       <br/>
-       <br/>
-       <input type="submit" value="Edit" @click="editFileSubmit(file._id, file)">
-    </form>
+    <dialog open>
+      <form @submit.prevent>
+        <label for="name">File name: </label>
+        <input type="text" id="name" v-model="file.name"><br/>
+        <label for="title">Title: </label>
+        <input type="text" id="title" v-model="file.title"><br/>
+        <label for="author">Author: </label>
+        <input type="text" id="author" v-model="file.author"><br/>
+        <label for="tags">Tags: </label>
+        <input type="text" id="tags" v-model="file.tags"><br/>
+        <br/>
+
+        <input type="submit" value="Submit" @click="editFileSubmit(file._id, file)">
+        <input type="submit" value="Close" @click="editFileClose()">
+      </form>
+    </dialog>
   </div>
 </template>
 
@@ -47,13 +56,20 @@ export default {
       });
   },
   methods: {
+    editFileClose() {
+      this.$store.commit('setEditFileDisplayMode', false);
+    },
     editFileSubmit(fileId, formData) {
       this.$axios
         .put(`http://localhost:8081/api/v1/files/${fileId}`, {
-          // TODO: implement
+          name: formData.name,
+          title: formData.title,
+          author: formData.author,
+          tags: formData.tags.split(','),
         })
-        .then((response) => {
-          // TODO: close modal
+        .then(() => {
+          this.$store.commit('setEditFileDisplayMode', false);
+          window.location.reload();
         })
         .catch((error) => {
           if (error.response) {

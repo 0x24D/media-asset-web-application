@@ -37,14 +37,12 @@ export default {
       this.$store.commit('setNewFileDisplayMode', false);
     },
     newFileSubmit(fileId, formData) {
-      const tags = formData.tags.split(',');
-      console.log(tags);
       this.$axios
         .post('http://localhost:8081/api/v1/files/', {
           name: formData.name,
           title: formData.title,
           author: formData.author,
-          tags: tags,
+          tags: formData.tags.split(','),
         })
         .then(() => {
           this.$store.commit('setNewFileDisplayMode', false);

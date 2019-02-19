@@ -41,14 +41,6 @@ export default {
         console.log(error.config);
       });
   },
-  methods: {
-    deleteFile(fileId) {
-      console.log('TODO: implement deleteFile in File');
-    },
-    editFile(fileId) {
-      console.log('TODO: implement editFile in File');
-    },
-  },
 };
 </script>
 
