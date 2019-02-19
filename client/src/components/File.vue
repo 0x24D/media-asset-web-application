@@ -3,7 +3,7 @@
     <dialog open>
       <button id="leftButton" @click="viewEarlierVersion(currentVersion.version)"
         :disabled="currentVersion.version === 1">Left</button>
-        <div id="container">
+        <div v-if="fileVersions[latestVersion - currentVersion.version]" id="container">
           <table>
             <tr>
               <td>
@@ -34,9 +34,13 @@
                 Tags:
               </td>
               <td>
-                <div v-for="tag in fileVersions[latestVersion - currentVersion.version].tags"
-                  :key="tag">
-                  {{ tag }}
+                <div id="tagList">
+                  <ul>
+                    <li v-for="tag in fileVersions[latestVersion - currentVersion.version].tags"
+                      :key="tag">
+                      {{ tag }}
+                    </li>
+                  </ul>
                 </div>
               </td>
             </tr>

@@ -29,8 +29,12 @@
                   Tags:
                 </td>
                 <td>
-                  <div v-for="tag in file.tags" :key="tag">
-                    {{ tag }}
+                  <div id="tagList">
+                    <ul>
+                      <li v-for="tag in file.tags" :key="tag">
+                        {{ tag }}
+                      </li>
+                    </ul>
                   </div>
                 </td>
               </tr>
@@ -114,5 +118,11 @@ li {
 }
 a {
   color: #42b983;
+}
+#tagList ul{
+  list-style: none;
+}
+#tagList li{
+  display: inline;
 }
 </style>
