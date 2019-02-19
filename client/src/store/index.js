@@ -6,6 +6,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     fileId: '',
+    searchTerm: '',
     showEditFileModal: false,
     showFileModal: false,
     showNewFileModal: false,
@@ -27,6 +28,9 @@ export default new Vuex.Store({
     },
     setNewFileDisplayMode(s, boolean) {
       Vue.set(s, 'showNewFileModal', boolean);
+    },
+    setFileSearchTerm(s, text) {
+      Vue.set(s, 'searchTerm', text);
     },
   },
 });

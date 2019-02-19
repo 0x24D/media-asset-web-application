@@ -3,6 +3,7 @@
     <Header/>
     <img alt="Vue logo" src="./assets/logo.png">
     <div v-if="userAuthenticated()">
+      <SearchFiles/>
       <ListOfFiles/>
       <div v-if="this.$store.state.showEditFileModal">
         <EditFile :file-id="this.$store.state.fileId"/>
@@ -27,6 +28,7 @@ import File from './components/File.vue';
 import NewFile from './components/NewFile.vue';
 import Header from './components/Header.vue';
 import ListOfFiles from './components/ListOfFiles.vue';
+import SearchFiles from './components/SearchFiles.vue';
 
 export default {
   name: 'app',
@@ -36,6 +38,7 @@ export default {
     Header,
     ListOfFiles,
     NewFile,
+    SearchFiles,
   },
   methods: {
     userAuthenticated() {

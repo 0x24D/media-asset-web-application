@@ -3,7 +3,7 @@
     <div class="buttons">
       <button id="newButton" @click="newFile()">New</button>
     </div>
-    <div class="file" v-for="file in files" :key="file._id">
+    <div class="file" v-for="file in filteredResults" :key="file._id">
       <div @click="viewAllVersions(file._id)">
         <h3>{{ file.name }}</h3>
           <div>
@@ -72,6 +72,33 @@ export default {
     return {
       files: [],
     };
+  },
+  computed: {
+    filteredResults() {
+      const flattenFunction = (o => [].concat(...Object.keys(o).map(
+        k => (typeof o[k] === 'object' ? flattenFunction(o[k]) : ({ [k]: o[k] })),
+      )));
+      // eslint-disable-next-line
+      const searchTerm = this.$store.state.searchTerm;
+      let results = [];
+      if (searchTerm) {
+        this.files.forEach((file) => {
+          const flattenedFile = Object.assign({}, ...flattenFunction(file));
+          let fileContains = false;
+          Object.keys(flattenedFile).forEach((k) => {
+            if (flattenedFile[k].toString().search(searchTerm) > -1) {
+              fileContains = true;
+            }
+          });
+          if (fileContains) {
+            results.push(file);
+          }
+        });
+      } else {
+        results = this.files;
+      }
+      return results;
+    },
   },
   methods: {
     deleteFile(fileId) {
