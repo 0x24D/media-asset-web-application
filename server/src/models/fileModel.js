@@ -4,6 +4,7 @@ export const FileSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
+    index: { unique: true },
   },
   // TODO: implement
   // type: {

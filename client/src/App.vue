@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <Header/>
+    <UserMessages/>
     <img alt="Vue logo" src="./assets/logo.png">
     <div v-if="userAuthenticated()">
       <SearchFiles/>
@@ -29,6 +30,7 @@ import NewFile from './components/NewFile.vue';
 import Header from './components/Header.vue';
 import ListOfFiles from './components/ListOfFiles.vue';
 import SearchFiles from './components/SearchFiles.vue';
+import UserMessages from './components/UserMessages.vue';
 
 export default {
   name: 'app',
@@ -39,6 +41,7 @@ export default {
     ListOfFiles,
     NewFile,
     SearchFiles,
+    UserMessages,
   },
   methods: {
     userAuthenticated() {

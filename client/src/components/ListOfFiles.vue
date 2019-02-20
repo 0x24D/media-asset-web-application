@@ -66,6 +66,8 @@
 </template>
 
 <script>
+import handleErrors from '../utils/error';
+
 export default {
   name: 'ListOfFiles',
   data() {
@@ -105,7 +107,11 @@ export default {
       this.$axios
         .delete(`http://localhost:8081/api/v1/files/${fileId}`)
         .then(() => {
+          this.$store.commit('setInfoMessage', 'File has been deleted');
           window.location.reload();
+        })
+        .catch((error) => {
+          handleErrors(error);
         });
     },
     editFile(fileId) {
@@ -125,6 +131,9 @@ export default {
       .get('http://localhost:8081/api/v1/files')
       .then((response) => {
         this.files = response.data;
+      })
+      .catch((error) => {
+        handleErrors(error);
       });
   },
 };

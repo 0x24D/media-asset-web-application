@@ -11,11 +11,21 @@ export const loginUser = (req, res) => {
   let hashedPassword;
   findByProperty('username', req.body.username, (err, user) => {
     if (err) {
-      res.status(500).send(err);
+      res.status(500).send(
+        {
+          err: 'An error has occured logging in, please try again later',
+          extended: err,
+        },
+      );
     } else if (user) {
       bcrypt.hash(unHashedPassword, user.salt, (err2, hash) => {
         if (err2) {
-          res.status(500).send(err2);
+          res.status(500).send(
+            {
+              err: 'An error has occured logging in, please try again later',
+              extended: err2,
+            },
+          );
         } else {
           hashedPassword = hash;
           if (user.password === hashedPassword) {
@@ -30,19 +40,24 @@ export const loginUser = (req, res) => {
                 newUser.token = token;
                 updateExistingByUsername(user.username, newUser, (err3) => {
                   if (err3) {
-                    res.status(500).send(err3);
+                    res.status(500).send(
+                      {
+                        err: 'An error has occured logging in, please try again later',
+                        extended: err3,
+                      },
+                    );
                   } else {
                     res.json({ token });
                   }
                 });
               });
           } else {
-            res.status(500).send({ err: 'Provided password is not correct' });
+            res.status(500).send({ err: 'Username or password is not correct' });
           }
         }
       });
     } else {
-      res.status(500).send({ err: 'Provided username is not correct' });
+      res.status(500).send({ err: 'That username does not exist' });
     }
   });
 };
@@ -51,12 +66,21 @@ export const logoutUser = (req, res) => {
   const tokenToCheck = req.headers.authorization;
   findByProperty('token', tokenToCheck, (err, user) => {
     if (err) {
-      res.status(500).send(err);
+      res.status(500).send(
+        {
+          err: 'An error has occured logging out, please try again later',
+          extended: err,
+        },
+      );
     } else if (user && user.token === tokenToCheck) {
       unsetPropertyByUsername(user.username, { token: tokenToCheck }, (err2) => {
         if (err2) {
-          console.log(`Error: ${err2}`);
-          res.status(500).send(err2);
+          res.status(500).send(
+            {
+              err: 'An error has occured logging out, please try again later',
+              extended: err2,
+            },
+          );
         } else {
           res.status(204).end();
         }

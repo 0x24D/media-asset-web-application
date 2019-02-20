@@ -10,7 +10,12 @@ import {
 export const getFiles = (req, res) => {
   findAll((err, files) => {
     if (err) {
-      res.status(500).send(err);
+      res.status(500).send(
+        {
+          err: 'An error has occured whilst locating all files, please try again later',
+          extended: err,
+        },
+      );
     } else {
       const arrayOfFiles = [];
       files.forEach((file) => {
@@ -40,7 +45,12 @@ export const addNewFile = (req, res) => {
   };
   addNew(dataToSave, (err, file) => {
     if (err) {
-      res.status(500).send(err);
+      res.status(500).send(
+        {
+          err: 'An error has occured whilst adding a new file, please make sure that your file name is unique',
+          extended: err,
+        },
+      );
     } else {
       res.status(201).json(file);
     }
@@ -50,7 +60,12 @@ export const addNewFile = (req, res) => {
 export const deleteAllFiles = (req, res) => {
   deleteAll((err) => {
     if (err) {
-      res.status(500).send(err);
+      res.status(500).send(
+        {
+          err: 'An error has occured whilst deleting all files, please try again later',
+          extended: err,
+        },
+      );
     } else {
       res.status(204).end();
     }
@@ -60,7 +75,12 @@ export const deleteAllFiles = (req, res) => {
 export const getFileById = (req, res) => {
   findById(req.params.id, (err, file) => {
     if (err) {
-      res.status(500).send(err);
+      res.status(500).send(
+        {
+          err: `An error has occured whilst getting file ${req.params.id}, please try again later`,
+          extended: err,
+        },
+      );
     } else {
       const v = file.data.length - 1;
       res.json({
@@ -80,7 +100,12 @@ export const updateFile = (req, res) => {
   const fileId = req.params.id;
   findById(fileId, (err, currentFile) => {
     if (err) {
-      res.status(500).send(err);
+      res.status(500).send(
+        {
+          err: `An error has occured whilst getting the latest version of file ${fileId}, please try again later`,
+          extended: err,
+        },
+      );
     } else {
       const updateData = {
         locked: false,
@@ -91,7 +116,12 @@ export const updateFile = (req, res) => {
       };
       updateExistingById(fileId, currentFile, updateData, (err2, updatedFile) => {
         if (err2) {
-          res.status(500).send(err2);
+          res.status(500).send(
+            {
+              err: `An error has occured whilst updating file ${fileId}, please try again later`,
+              extended: err2,
+            },
+          );
         } else {
           res.json(updatedFile);
         }
@@ -103,7 +133,12 @@ export const updateFile = (req, res) => {
 export const deleteFile = (req, res) => {
   deleteById(req.params.id, (err) => {
     if (err) {
-      res.status(500).send(err);
+      res.status(500).send(
+        {
+          err: `An error has occured whilst deleting file ${req.params.id}, please try again later`,
+          extended: err,
+        },
+      );
     } else {
       res.status(204).end();
     }
@@ -113,7 +148,12 @@ export const deleteFile = (req, res) => {
 export const getFileAndVersion = (req, res) => {
   findById(req.params.id, (err, file) => {
     if (err) {
-      res.status(500).send(err);
+      res.status(500).send(
+        {
+          err: `An error has occured whilst getting version ${req.params.version} of file ${req.params.id}, please try again later`,
+          extended: err,
+        },
+      );
     } else {
       const v = req.params.version - 1;
       res.json({
@@ -133,13 +173,23 @@ export const lockFile = (req, res) => {
   const fileId = req.params.id;
   findById(fileId, (err, currentFile) => {
     if (err) {
-      res.status(500).send(err);
+      res.status(500).send(
+        {
+          err: `An error has occured whilst getting file ${req.params.id}, please try again later`,
+          extended: err,
+        },
+      );
     } else {
       const newFile = currentFile;
       newFile.locked = true;
       updateExistingById(fileId, newFile, (err2) => {
         if (err2) {
-          res.status(500).send(err2);
+          res.status(500).send(
+            {
+              err: `An error has occured whilst checking out file ${req.params.id}, please try again later`,
+              extended: err2,
+            },
+          );
         } else {
           res.send({ msg: 'File has been locked' });
         }
