@@ -75,15 +75,15 @@ export default {
   },
   computed: {
     filteredResults() {
-      const flattenFunction = (o => [].concat(...Object.keys(o).map(
-        k => (typeof o[k] === 'object' ? flattenFunction(o[k]) : ({ [k]: o[k] })),
+      const flattenObject = (o => [].concat(...Object.keys(o).map(
+        k => (typeof o[k] === 'object' ? flattenObject(o[k]) : ({ [k]: o[k] })),
       )));
       // eslint-disable-next-line
       const searchTerm = this.$store.state.searchTerm;
       let results = [];
       if (searchTerm) {
         this.files.forEach((file) => {
-          const flattenedFile = Object.assign({}, ...flattenFunction(file));
+          const flattenedFile = Object.assign({}, ...flattenObject(file));
           let fileContains = false;
           Object.keys(flattenedFile).forEach((k) => {
             if (flattenedFile[k].toString().search(searchTerm) > -1) {
