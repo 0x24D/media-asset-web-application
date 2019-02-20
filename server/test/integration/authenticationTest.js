@@ -21,10 +21,12 @@ describe('Authentication tests', () => {
   const token = '123456';
   beforeEach((done) => {
     bcrypt.genSalt(SALT_WORK_FACTOR, (err, salt) => {
-      bcrypt.hash('testPassword1', salt, (err2, hash) => {
-        const newUser = new User({ username: 'testUser1', password: hash, salt, token });
-        newUser.save();
-        done();
+      bcrypt.hash('testPassword', salt, (err2, hash) => {
+        const tokenUser = new User({ username: 'testUser1', password: hash, salt, token });
+        const newUser = new User({ username: 'testUser2', password: hash, salt });
+        User.insertMany([tokenUser, newUser], () => {
+          done();
+        });
       });
     });
   });
@@ -38,8 +40,8 @@ describe('Authentication tests', () => {
       .post('/api/v1/authentication/login')
       .set('content-type', 'application/x-www-form-urlencoded')
       .send({
-        username: 'testUser1',
-        password: 'testPassword1',
+        username: 'testUser2',
+        password: 'testPassword',
       })
       .end((err, res) => {
         res.should.have.status(200);
@@ -56,8 +58,8 @@ describe('Authentication tests', () => {
       .post('/api/v1/authentication/login')
       .set('content-type', 'application/x-www-form-urlencoded')
       .send({
-        username: 'testUser1',
-        password: 'testPassword2',
+        username: 'testUser2',
+        password: 'testPassword1',
       })
       .end((err, res) => {
         res.should.have.status(500);
