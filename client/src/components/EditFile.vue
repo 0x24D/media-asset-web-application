@@ -3,7 +3,7 @@
     <dialog open>
       <form @submit.prevent>
         <label for="name">File name: </label>
-        <input type="text" id="name" v-model="file.name"><br/>
+        <input type="text" id="name" v-model="file.name" disabled><br/>
         <label for="title">Title: </label>
         <input type="text" id="title" v-model="file.title"><br/>
         <label for="author">Author: </label>
@@ -62,7 +62,6 @@ export default {
     editFileSubmit(fileId, formData) {
       this.$axios
         .put(`http://localhost:8081/api/v1/files/${fileId}`, {
-          name: formData.name,
           title: formData.title,
           author: formData.author,
           tags: formData.tags.split(','),
