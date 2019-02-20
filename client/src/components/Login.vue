@@ -36,6 +36,7 @@ export default {
           window.location.reload();
         })
         .catch((error) => {
+          console.log(error);
           handleErrors(this.$store, error);
         });
     },

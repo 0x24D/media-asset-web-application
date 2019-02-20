@@ -109,10 +109,30 @@ export default {
   methods: {
     deleteFile(fileId) {
       this.$axios
-        .delete(`http://localhost:8081/api/v1/files/${fileId}`)
-        .then(() => {
-          this.$store.commit('setInfoMessage', 'File has been deleted');
-          window.location.reload();
+        .get(`http://localhost:8081/api/v1/files/${fileId}`)
+        .then((response) => {
+          if (response.data.locked) {
+            this.$store.commit('setInfoMessage', 'This file is currently being edited by another user');
+          } else {
+            this.$axios
+              .post(`http://localhost:8081/api/v1/files/lock/${fileId}`, {
+                locked: true,
+              })
+              .then(() => {
+                this.$axios
+                  .delete(`http://localhost:8081/api/v1/files/${fileId}`)
+                  .then(() => {
+                    this.$store.commit('setInfoMessage', 'File has been deleted');
+                    window.location.reload();
+                  })
+                  .catch((error) => {
+                    handleErrors(this.$store, error);
+                  });
+              })
+              .catch((error) => {
+                handleErrors(this.$store, error);
+              });
+          }
         })
         .catch((error) => {
           handleErrors(this.$store, error);
@@ -120,12 +140,23 @@ export default {
     },
     editFile(fileId) {
       this.$axios
-        .post(`http://localhost:8081/api/v1/files/lock/${fileId}`, {
-          username: localStorage.user,
-        })
-        .then(() => {
-          this.$store.commit('setFileIdToDisplay', fileId);
-          this.$store.commit('setEditFileDisplayMode', true);
+        .get(`http://localhost:8081/api/v1/files/${fileId}`)
+        .then((response) => {
+          if (response.data.locked) {
+            this.$store.commit('setInfoMessage', 'This file is currently being edited by another user');
+          } else {
+            this.$axios
+              .post(`http://localhost:8081/api/v1/files/lock/${fileId}`, {
+                locked: true,
+              })
+              .then(() => {
+                this.$store.commit('setFileIdToDisplay', fileId);
+                this.$store.commit('setEditFileDisplayMode', true);
+              })
+              .catch((error) => {
+                handleErrors(this.$store, error);
+              });
+          }
         })
         .catch((error) => {
           handleErrors(this.$store, error);

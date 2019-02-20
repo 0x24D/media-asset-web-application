@@ -184,8 +184,8 @@ export const lockFile = (req, res) => {
       );
     } else {
       const newFile = currentFile;
-      newFile.locked = true;
-      updateExistingById(fileId, newFile, (err2) => {
+      newFile.locked = req.body.locked;
+      updateExistingById(fileId, currentFile, newFile, (err2) => {
         if (err2) {
           res.status(500).send(
             {
@@ -194,7 +194,7 @@ export const lockFile = (req, res) => {
             },
           );
         } else {
-          res.send({ msg: 'File has been locked' });
+          res.send({ msg: `File has been ${req.body.locked ? 'locked' : 'unlocked'}` });
         }
       });
     }

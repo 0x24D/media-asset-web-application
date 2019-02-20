@@ -14,7 +14,7 @@
         <br/>
 
         <input type="submit" value="Submit" @click="editFileSubmit(file._id, file)">
-        <input type="submit" value="Close" @click="editFileClose()">
+        <input type="submit" value="Close" @click="editFileClose(file._id)">
       </form>
     </dialog>
   </div>
@@ -50,8 +50,18 @@ export default {
       && document.getElementById('author').checkValidity()
       && document.getElementById('tags').checkValidity();
     },
-    editFileClose() {
-      this.$store.commit('setEditFileDisplayMode', false);
+    editFileClose(fileId) {
+      this.$axios
+        .post(`http://localhost:8081/api/v1/files/lock/${fileId}`, {
+          locked: false,
+        })
+        .then((response) => {
+          console.log(response.data);
+          this.$store.commit('setEditFileDisplayMode', false);
+        })
+        .catch((error) => {
+          handleErrors(this.$store, error);
+        });
     },
     editFileSubmit(fileId, formData) {
       if (this.checkFormValidity()) {
