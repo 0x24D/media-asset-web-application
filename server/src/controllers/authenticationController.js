@@ -12,10 +12,10 @@ export const loginUser = (req, res) => {
   findByProperty('username', req.body.username, (err, user) => {
     if (err) {
       res.status(500).send(err);
-    } else {
-      bcrypt.hash(unHashedPassword, user.salt, (err3, hash) => {
-        if (err3) {
-          res.status(500).send(err3);
+    } else if (user) {
+      bcrypt.hash(unHashedPassword, user.salt, (err2, hash) => {
+        if (err2) {
+          res.status(500).send(err2);
         } else {
           hashedPassword = hash;
           if (user.password === hashedPassword) {
@@ -28,9 +28,9 @@ export const loginUser = (req, res) => {
               .then((token) => {
                 const newUser = user;
                 newUser.token = token;
-                updateExistingByUsername(user.username, newUser, (err4) => {
-                  if (err4) {
-                    res.status(500).send(err4);
+                updateExistingByUsername(user.username, newUser, (err3) => {
+                  if (err3) {
+                    res.status(500).send(err3);
                   } else {
                     res.json({ token });
                   }
@@ -41,6 +41,8 @@ export const loginUser = (req, res) => {
           }
         }
       });
+    } else {
+      res.status(500).send({ err: 'Provided username is not correct' });
     }
   });
 };
