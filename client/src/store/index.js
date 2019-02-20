@@ -26,11 +26,11 @@ export default new Vuex.Store({
     setFileIdToDisplay(s, fileId) {
       Vue.set(s, 'fileId', fileId);
     },
-    setNewFileDisplayMode(s, boolean) {
-      Vue.set(s, 'showNewFileModal', boolean);
-    },
     setFileSearchTerm(s, text) {
       Vue.set(s, 'searchTerm', text);
+    },
+    setNewFileDisplayMode(s, boolean) {
+      Vue.set(s, 'showNewFileModal', boolean);
     },
   },
 });

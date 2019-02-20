@@ -35,6 +35,7 @@ export default {
       .get(`http://localhost:8081/api/v1/files/${this.fileId}`)
       .then((response) => {
         this.file = response.data;
+        this.file.author = localStorage.user;
       })
       .catch((error) => {
         if (error.response) {
@@ -64,7 +65,7 @@ export default {
         .put(`http://localhost:8081/api/v1/files/${fileId}`, {
           title: formData.title,
           author: formData.author,
-          tags: formData.tags.split(','),
+          tags: Array.isArray(formData.tags) ? formData.tags : formData.tags.split(','),
         })
         .then(() => {
           this.$store.commit('setEditFileDisplayMode', false);

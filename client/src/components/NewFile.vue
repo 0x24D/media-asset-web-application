@@ -27,7 +27,7 @@ export default {
       file: {
         name: '',
         title: '',
-        author: '',
+        author: localStorage.user || '',
         tags: '',
       },
     };

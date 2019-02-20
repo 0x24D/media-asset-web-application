@@ -13,6 +13,7 @@ export default {
         .post('http://localhost:8081/api/v1/authentication/logout')
         .then(() => {
           delete localStorage.token;
+          delete localStorage.user;
           window.location.reload();
         })
         .catch((error) => {

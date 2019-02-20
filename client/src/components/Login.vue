@@ -29,6 +29,7 @@ export default {
         })
         .then((response) => {
           localStorage.token = response.data.token;
+          localStorage.user = this.username;
           window.location.reload();
         })
         .catch((error) => {
