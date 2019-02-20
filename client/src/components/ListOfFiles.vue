@@ -58,8 +58,12 @@
           </div>
       </div>
       <div class="buttons">
-        <button id="editButton" @click="editFile(file._id)">Edit</button>
-        <button id="deleteButton" @click="deleteFile(file._id)">Delete</button>
+        <button :id="file._id + '-edit'" class="editButton"
+          :disabled="file.locked"
+            @click="editFile(file._id)">Edit</button>
+        <button :id="file._id + '-delete'" class="deleteButton"
+          :disabled="file.locked"
+            @click="deleteFile(file._id)">Delete</button>
       </div>
     </div>
   </div>

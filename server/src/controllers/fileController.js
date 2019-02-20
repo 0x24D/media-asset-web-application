@@ -28,6 +28,7 @@ export const getFiles = (req, res) => {
           author: file.data[v].author,
           created_date: file.data[v].created_date,
           tags: file.data[v].tags,
+          locked: file.locked,
         };
         arrayOfFiles.push(fileJson);
       });
@@ -91,6 +92,7 @@ export const getFileById = (req, res) => {
         author: file.data[v].author,
         created_date: file.data[v].created_date,
         tags: file.data[v].tags,
+        locked: file.locked,
       });
     }
   });
@@ -164,6 +166,7 @@ export const getFileAndVersion = (req, res) => {
         author: file.data[v].author,
         created_date: file.data[v].created_date,
         tags: file.data[v].tags,
+        locked: file.locked,
       });
     }
   });
