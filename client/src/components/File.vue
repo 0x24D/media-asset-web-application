@@ -93,7 +93,7 @@ export default {
         this.fileVersions.push(this.currentVersion);
       })
       .catch((error) => {
-        handleErrors(error);
+        handleErrors(this.$store, error);
       });
   },
   methods: {
@@ -110,7 +110,7 @@ export default {
           }
         })
         .catch((error) => {
-          handleErrors(error);
+          handleErrors(this.$store, error);
         });
     },
     viewLaterVersion(currentVersion) {
@@ -123,7 +123,7 @@ export default {
           }
         })
         .catch((error) => {
-          handleErrors(error);
+          handleErrors(this.$store, error);
         });
     },
   },

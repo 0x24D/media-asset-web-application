@@ -60,7 +60,7 @@ export default {
             window.location.reload();
           })
           .catch((error) => {
-            handleErrors(error);
+            handleErrors(this.$store, error);
           });
       }
     },

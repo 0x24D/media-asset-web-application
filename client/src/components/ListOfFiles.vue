@@ -115,12 +115,21 @@ export default {
           window.location.reload();
         })
         .catch((error) => {
-          handleErrors(error);
+          handleErrors(this.$store, error);
         });
     },
     editFile(fileId) {
-      this.$store.commit('setFileIdToDisplay', fileId);
-      this.$store.commit('setEditFileDisplayMode', true);
+      this.$axios
+        .post(`http://localhost:8081/api/v1/files/lock/${fileId}`, {
+          username: localStorage.user,
+        })
+        .then(() => {
+          this.$store.commit('setFileIdToDisplay', fileId);
+          this.$store.commit('setEditFileDisplayMode', true);
+        })
+        .catch((error) => {
+          handleErrors(this.$store, error);
+        });
     },
     newFile() {
       this.$store.commit('setNewFileDisplayMode', true);
@@ -137,7 +146,7 @@ export default {
         this.files = response.data;
       })
       .catch((error) => {
-        handleErrors(error);
+        handleErrors(this.$store, error);
       });
   },
 };

@@ -41,7 +41,7 @@ export default {
         this.file.author = localStorage.user;
       })
       .catch((error) => {
-        handleErrors(error);
+        handleErrors(this.$store, error);
       });
   },
   methods: {
@@ -67,7 +67,7 @@ export default {
             window.location.reload();
           })
           .catch((error) => {
-            handleErrors(error);
+            handleErrors(this.$store, error);
           });
       }
     },
