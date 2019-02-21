@@ -1,8 +1,7 @@
 <template>
   <div id="app">
     <Header/>
-    <UserMessages/>
-    <img alt="Vue logo" src="./assets/logo.png">
+
     <div v-if="userAuthenticated()">
       <SearchFiles/>
       <ListOfFiles/>
@@ -17,8 +16,9 @@
       </div>
     </div>
     <div v-else>
-      <h3> Please login above </h3>
+      <Login/>
     </div>
+    <UserMessages/>
   </div>
 </template>
 
@@ -29,6 +29,7 @@ import File from './components/File.vue';
 import NewFile from './components/NewFile.vue';
 import Header from './components/Header.vue';
 import ListOfFiles from './components/ListOfFiles.vue';
+import Login from './components/Login.vue';
 import SearchFiles from './components/SearchFiles.vue';
 import UserMessages from './components/UserMessages.vue';
 
@@ -39,6 +40,7 @@ export default {
     File,
     Header,
     ListOfFiles,
+    Login,
     NewFile,
     SearchFiles,
     UserMessages,
@@ -50,14 +52,3 @@ export default {
   },
 };
 </script>
-
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>

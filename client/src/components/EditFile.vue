@@ -1,30 +1,69 @@
 <template>
   <div id="editFile">
-    <dialog open>
-      <form @submit.prevent>
-        <label for="name">File name: </label>
-        <input type="text" id="name" v-model="file.name" disabled><br/>
-        <label for="title">Title: </label>
-        <input type="text" id="title" v-model="file.title" required><br/>
-        <label for="author">Author: </label>
-        <input type="text" id="author" v-model="file.author" required><br/>
-        <label for="tags">Tags: </label>
-        <input type="text" id="tags" v-model="file.tags"
-          title="Comma-separated list of tags" pattern="(\w+)(,\s*\w+)*"><br/>
-        <br/>
-
-        <input type="submit" value="Submit" @click="editFileSubmit(file._id, file)">
-        <input type="submit" value="Close" @click="editFileClose(file._id)">
+    <md-dialog id="dialog" :md-active="true">
+      <form novalidate class="md-layout" @submit.prevent>
+        <md-card class="md-layout-item md-size-100 md-small-size-100">
+          <md-card-header>
+            <div class="md-title">Edit File</div>
+          </md-card-header>
+          <md-card-content>
+            <div class="md-layout md-gutter">
+              <div class="md-layout-item md-small-size-100">
+                <md-field>
+                  <label for="name">File name</label>
+                  <md-input name="name" id="name" v-model="file.name" disabled/>
+                </md-field>
+              </div>
+              <div class="md-layout-item md-small-size-100">
+                <md-field :class="getValidationClass('title')">
+                  <label for="title">Title</label>
+                  <md-input name="title" id="title" v-model="file.title" required/>
+                  <span class="md-error" v-if="!$v.file.title.required">Title is required</span>
+                </md-field>
+              </div>
+              <div class="md-layout-item md-small-size-100">
+                <md-field :class="getValidationClass('author')">
+                  <label for="author">Author</label>
+                  <md-input name="author" id="author" v-model="file.author" required/>
+                  <span class="md-error" v-if="!$v.file.author.required">Author is required</span>
+                </md-field>
+              </div>
+              <div class="md-layout-item md-small-size-100">
+                <md-field :class="getValidationClass('tags')">
+                  <label for="tags">Tags</label>
+                  <md-input name="tags" id="tags" v-model="file.tags" title="Comma-separated list of tags"/>
+                  <span class="md-error" v-if="!$v.file.tags.commaSeparated">Tags must be comma-separated</span>
+                </md-field>
+              </div>
+            </div>
+          </md-card-content>
+          <md-dialog-actions>
+            <md-button class="md-primary" id="submitButton"
+              @click="editFileSubmit(file._id, file)">Submit</md-button>
+            <md-button class="md-primary" id="closeButton"
+              @click="editFileSubmit(file._id)">Close</md-button>
+          </md-dialog-actions>
+        </md-card>
       </form>
-    </dialog>
+    </md-dialog>
   </div>
 </template>
 
 <script>
+import { validationMixin } from 'vuelidate';
+import { required } from 'vuelidate/lib/validators';
 import handleErrors from '../utils/error';
+
+const commaSeparated = (value) => {
+  if (typeof value === 'undefined' || value === null || value === '') {
+    return true;
+  }
+  return /^\w+(,\w+)*$/.test(value);
+};
 
 export default {
   name: 'EditFile',
+  mixins: [validationMixin],
   props: {
     fileId: String,
   },
@@ -45,10 +84,14 @@ export default {
       });
   },
   methods: {
-    checkFormValidity() {
-      return document.getElementById('tags').checkValidity()
-      && document.getElementById('author').checkValidity()
-      && document.getElementById('tags').checkValidity();
+    // eslint-disable-next-line
+    getValidationClass(fieldName) {
+      const field = this.$v.file[fieldName];
+      if (field) {
+        return {
+          'md-invalid': field.$invalid && field.$dirty,
+        };
+      }
     },
     editFileClose(fileId) {
       this.$axios
@@ -64,7 +107,8 @@ export default {
         });
     },
     editFileSubmit(fileId, formData) {
-      if (this.checkFormValidity()) {
+      this.$v.$touch();
+      if (!this.$v.$invalid) {
         this.$axios
           .put(`http://localhost:8081/api/v1/files/${fileId}`, {
             title: formData.title,
@@ -82,29 +126,18 @@ export default {
       }
     },
   },
+  validations: {
+    file: {
+      title: {
+        required,
+      },
+      author: {
+        required,
+      },
+      tags: {
+        commaSeparated,
+      },
+    },
+  },
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-#tagList ul{
-  list-style: none;
-}
-#tagList li{
-  display: inline;
-}
-</style>

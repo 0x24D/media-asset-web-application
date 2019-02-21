@@ -1,24 +1,21 @@
 <template>
   <div id="header">
-    <h1> Header placeholder text </h1>
-    <div v-if="userAuthenticated()">
-      <Logout/>
-    </div>
-    <div v-else>
-      <Login/>
-    </div>
+    <md-toolbar class="md-primary">
+      <h3 class="md-title">TMS Asset Management System</h3>
+      <div v-if="userAuthenticated()">
+        <Logout/>
+      </div>
+    </md-toolbar>
   </div>
 </template>
 
 <script>
 import isUserAuthenticated from '../utils/auth';
-import Login from './Login.vue';
 import Logout from './Logout.vue';
 
 export default {
   name: 'Header',
   components: {
-    Login,
     Logout,
   },
   methods: {
@@ -27,22 +24,4 @@ export default {
     },
   },
 };
-
 </script>
-
-<style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-</style>

@@ -1,71 +1,50 @@
 <template>
   <div id="files">
-    <div class="buttons">
-      <button id="newButton" @click="newFile()">New</button>
-    </div>
     <div class="file" v-for="file in filteredResults" :key="file._id">
-      <div @click="viewAllVersions(file._id)">
-        <h3>{{ file.name }}</h3>
-          <div>
-            <table>
-              <tr>
-                <td>
-                  Title:
-                </td>
-                <td>
-                  {{ file.title }}
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  Author:
-                </td>
-                <td>
-                  {{ file.author }}
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  Tags:
-                </td>
-                <td>
-                  <div id="tagList">
-                    <ul>
-                      <li v-for="tag in file.tags" :key="tag">
-                        {{ tag }}
-                      </li>
-                    </ul>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  Created date:
-                </td>
-                <td>
-                  {{ file.created_date }}
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  Version:
-                </td>
-                <td>
-                  {{ file.version }}
-                </td>
-              </tr>
-            </table>
-          </div>
-      </div>
-      <div class="buttons">
-        <button :id="file._id + '-edit'" class="editButton"
-          :disabled="file.locked"
-            @click="editFile(file._id)">Edit</button>
-        <button :id="file._id + '-delete'" class="deleteButton"
-          :disabled="file.locked"
-            @click="deleteFile(file._id)">Delete</button>
-      </div>
+      <md-card md-with-hover>
+          <md-card-header>
+            <div class="md-title">{{ file.name }}</div>
+          </md-card-header>
+          <md-card-content>
+            <md-list>
+              <md-list-item>
+                <span class="md-list-item-text">Title</span>
+                <span class="md-list-item-text">{{ file.title }}</span>
+              </md-list-item>
+              <md-list-item>
+                <span class="md-list-item-text">Author</span>
+                <span class="md-list-item-text">{{ file.author }}</span>
+              </md-list-item>
+              <md-list-item>
+                <span class="md-list-item-text">Tags</span>
+                <span class="md-list-item-text">{{ file.tags.join(',') }}</span>
+              </md-list-item>
+              <md-list-item>
+                <span class="md-list-item-text">Created date</span>
+                <span class="md-list-item-text">{{ new Date(file.created_date).toDateString() }}
+                {{ new Date(file.created_date).toLocaleTimeString() }}</span>
+              </md-list-item>
+              <md-list-item>
+                <span class="md-list-item-text">Version</span>
+                <span class="md-list-item-text">{{ file.version }}</span>
+              </md-list-item>
+            </md-list>
+          </md-card-content>
+          <md-card-actions class="buttons">
+            <md-button :id="file._id + '-view'" class="md-raised"
+                @click="viewAllVersions(file._id)">View All Versions</md-button>
+            <md-button :id="file._id + '-edit'" class="md-raised"
+              :disabled="file.locked"
+                @click="editFile(file._id)">Edit File</md-button>
+            <md-button :id="file._id + '-delete'" class="md-raised"
+              :disabled="file.locked"
+                @click="deleteFile(file._id)">Delete File</md-button>
+          </md-card-actions>
+        </md-card>
     </div>
+    <md-button class="md-fab md-fab-top-right" @click="newFile()">
+      <md-icon>+</md-icon>
+    </md-button>
   </div>
 </template>
 
@@ -92,8 +71,14 @@ export default {
           const flattenedFile = Object.assign({}, ...flattenObject(file));
           let fileContains = false;
           Object.keys(flattenedFile).forEach((k) => {
-            if (flattenedFile[k].toString().search(searchTerm) > -1) {
-              fileContains = true;
+            if (k !== '_id') {
+              let value = flattenedFile[k];
+              if (k === 'created_date') {
+                value = `${new Date(value).toDateString()} ${new Date(value).toLocaleTimeString()}`;
+              }
+              if (value.toString().search(searchTerm) > -1) {
+                fileContains = true;
+              }
             }
           });
           if (fileContains) {
@@ -182,27 +167,3 @@ export default {
   },
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-#tagList ul{
-  list-style: none;
-}
-#tagList li{
-  display: inline;
-}
-</style>
