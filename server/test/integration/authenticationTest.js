@@ -53,6 +53,20 @@ describe('Authentication tests', () => {
       });
   });
 
+  it('should error on /api/v1/authentication/login POST with valid but logged-in credentials', (done) => {
+    chai.request(app)
+      .post('/api/v1/authentication/login')
+      .set('content-type', 'application/x-www-form-urlencoded')
+      .send({
+        username: 'testUser1',
+        password: 'testPassword',
+      })
+      .end((err, res) => {
+        res.should.have.status(409);
+        done();
+      });
+  });
+
   it('should error on /api/v1/authentication/login POST with invalid credentials', (done) => {
     chai.request(app)
       .post('/api/v1/authentication/login')
