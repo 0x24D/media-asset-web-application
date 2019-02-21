@@ -1,7 +1,7 @@
 <template>
   <div id="files">
     <div class="file" v-for="file in filteredResults" :key="file._id">
-      <md-card md-with-hover>
+      <md-card md-with-hover class="md-size-75">
           <md-card-header>
             <div class="md-title">{{ file.name }}</div>
           </md-card-header>
@@ -20,7 +20,7 @@
                 <span class="md-list-item-text">{{ file.tags.join(',') }}</span>
               </md-list-item>
               <md-list-item>
-                <span class="md-list-item-text">Created date</span>
+                <span class="md-list-item-text">Date</span>
                 <span class="md-list-item-text">{{ new Date(file.created_date).toDateString() }}
                 {{ new Date(file.created_date).toLocaleTimeString() }}</span>
               </md-list-item>
@@ -35,10 +35,13 @@
                 @click="viewAllVersions(file._id)">View All Versions</md-button>
             <md-button :id="file._id + '-edit'" class="md-raised"
               :disabled="file.locked"
-                @click="editFile(file._id)">Edit File</md-button>
+                @click="editFile(file._id)" :title="file.locked ?
+                'This file is currently being edited by another user' : ''">Edit File</md-button>
+
             <md-button :id="file._id + '-delete'" class="md-raised"
               :disabled="file.locked"
-                @click="deleteFile(file._id)">Delete File</md-button>
+                @click="deleteFile(file._id)"  :title="file.locked ?
+                'This file is currently being edited by another user' : ''">Delete File</md-button>
           </md-card-actions>
         </md-card>
     </div>
@@ -167,3 +170,10 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+button:disabled,
+button[disabled]{
+  pointer-events: auto;
+}
+</style>

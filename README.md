@@ -56,3 +56,9 @@
 /api/v1/authentication/login POST - login user, create token
 /api/v1/authentication/logout POST - logout user, remove token
 ```
+
+## How to run application
+* Run mongo on default port (27017)
+* Open mongo shell and copy bootstrap.js into it
+* cd server && npm start
+* cd client && npm run serve

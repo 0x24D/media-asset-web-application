@@ -31,8 +31,10 @@
               <div class="md-layout-item md-small-size-100">
                 <md-field :class="getValidationClass('tags')">
                   <label for="tags">Tags</label>
-                  <md-input name="tags" id="tags" v-model="file.tags" title="Comma-separated list of tags"/>
-                  <span class="md-error" v-if="!$v.file.tags.commaSeparated">Tags must be comma-separated</span>
+                  <md-input name="tags" id="tags" v-model="file.tags"
+                  title="Comma-separated list of tags"/>
+                  <span class="md-error" v-if="!$v.file.tags.commaSeparated">
+                    Tags must be comma-separated</span>
                 </md-field>
               </div>
             </div>
@@ -98,8 +100,7 @@ export default {
         .post(`http://localhost:8081/api/v1/files/lock/${fileId}`, {
           locked: false,
         })
-        .then((response) => {
-          console.log(response.data);
+        .then(() => {
           this.$store.commit('setEditFileDisplayMode', false);
         })
         .catch((error) => {
