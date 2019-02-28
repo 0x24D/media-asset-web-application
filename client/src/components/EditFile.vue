@@ -43,7 +43,7 @@
             <md-button class="md-primary" id="submitButton"
               @click="editFileSubmit(file._id, file)">Submit</md-button>
             <md-button class="md-primary" id="closeButton"
-              @click="editFileSubmit(file._id)">Close</md-button>
+              @click="editFileClose(file._id)">Close</md-button>
           </md-dialog-actions>
         </md-card>
       </form>
